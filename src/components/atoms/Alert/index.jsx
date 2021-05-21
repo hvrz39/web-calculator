@@ -12,14 +12,13 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-  export default function LSAlert(props) {
+  export default function CustomAlert(props) {
     const classes = useStyles();
     const { severity, text, action} = props;
     
     return (
       <div className={classes.root}>
-        <Alert
-           
+        <Alert           
             action={action && action()} 
             severity={severity ?? 'error'}>            
                 <AlertTitle>{text}</AlertTitle>
