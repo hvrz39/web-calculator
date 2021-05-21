@@ -9,6 +9,7 @@ const Textfield =  props => {
         value, 
         onChange, 
         multiline, 
+        disabled=false,
         rows, 
         ...rest } = props;
 
@@ -23,7 +24,8 @@ const Textfield =  props => {
             name={name}
             value={value}       
             onChange={onChange} 
-            error={false}            
+            error={false}           
+            disabled={disabled} 
             helperText={''}        
             {...rest} />
             </>

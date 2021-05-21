@@ -1,8 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Button } from '../../atoms';
-import { TextField } from '../../atoms'
+import { TextField, Alert } from '../../atoms'
 import Form from '../Form';
+import { useMutation } from  'react-query';
+import { AuthService } from '../../../services/'
 
 const LoginContainer = styled.div
 `
@@ -32,29 +34,48 @@ const FormControl = styled.div
 `;    
 
 const LoginForm = props => {   
+
+    const authService = new AuthService();    
+    const { mutate, data, isError, isLoading, isSuccess, isFetching } = useMutation(credentials => signIn(credentials));    
+    const signIn = async credentials => await authService.signin(credentials);      
+
+    function onSubmitHandler(e) {
+        e.preventDefault();
+        const credentials =  {  username: 'rzhoraciov@gmail.com', password: 'adminx' };
+        mutate(credentials);
+    }
+   
+    const signinLabel = isLoading ? 'Logining...' : 'Login';
+
     return (
         <LoginContainer>
             <LoginWrapper>
-                <LoginCard>
+                <LoginCard>                    
                     <FormControl>
-                        <Form>
+                        { isError && <Alert text={'User not found or incorrect password'} /> }
+                        <Form> 
                             <TextField 
                                 id={'username'}                               
                                 autoFocus
                                 name={'username'}                               
                                 value={''}
+                                disabled={isLoading}
                                 onChange={f=>f}
                                 label="Username"  /> 
                             <TextField 
                                 id={'password'}                               
-                                autoFocus
+                                disabled={isLoading}
                                 name={'password'}                               
                                 value={''}
                                 type="password"
                                 onChange={f=>f}
                                 label="Password"  /> 
                         
-                            <Button text="Login" />    
+                            <Button 
+                                text={signinLabel}
+                                disabled={isLoading}
+                                onClick={onSubmitHandler}
+                                 />    
                         </Form>
                     </FormControl>
                 </LoginCard>

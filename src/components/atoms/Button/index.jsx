@@ -23,6 +23,7 @@ export default function LSButton(props) {
         variant, 
         onClick, 
         startIcon,         
+        disabled=false,
         endIcon, 
         ...other } = props
     const classes = useStyles();
@@ -33,6 +34,7 @@ export default function LSButton(props) {
             size={size || "large"}
             color={color || "primary"}
             onClick={onClick}
+            disabled={disabled}
             startIcon={<Icon>{startIcon}</Icon>}
             endIcon={<Icon>{endIcon}</Icon>}                        
             classes={
