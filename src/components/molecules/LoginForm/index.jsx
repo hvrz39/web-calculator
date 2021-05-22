@@ -5,8 +5,10 @@ import { TextField, Alert } from '../../atoms'
 import Form from '../Form';
 import { useMutation } from  'react-query';
 import { AuthService } from '../../../services'
-import { userFormFields } from '../../../hooks'
 import useFormFields from '../../../hooks/userFormFields';
+import { useDispatch, useSelector } from 'react-redux';
+import * as userloginActions from '../../../redux/actions/userlogin.action';
+import { useHistory  } from 'react-router-dom';
 
 const LoginContainer = styled.div
 `
@@ -37,25 +39,39 @@ const FormControl = styled.div
 const AlertWrapper = styled.div
 `   padding: .5em 0em;    
 `;  
+
 const LoginForm = props => {   
-
+    
     const authService = new AuthService();    
-    const [fields, setFields]  = useFormFields({ username: '', password: ''});
+    const [fields, setFields]  = useFormFields({ username: 'rzhoraciov@gmail.com', password: 'admin'});
+    
+    const signIn = async credentials => await authService.signin(credentials);  
     const { mutate, data, isError, isLoading, isSuccess } = useMutation(credentials => signIn(credentials));    
-    const signIn = async credentials => await authService.signin(credentials);      
 
+    const dispatch = useDispatch();    
+    const userlogin = useSelector(state=> state.userlogin);    
+    const state = useSelector(state=> state);    
+    const history = useHistory();
+    
     function onSubmitHandler(e) {
         e.preventDefault();
         const { username, password } = fields;
         const credentials =  {  username, password };
         mutate(credentials);
+        dispatch(userloginActions.userLoginLoad())
     }
    
-    if(isSuccess) {
-       // dispatch goes here
-       console.log(data)
+    function redirectToDashboard() {
+        history.push("/dashboard");
     }
-
+    if(userlogin.isAuthenticated) {
+        redirectToDashboard();
+    }
+    if(isSuccess && !userlogin.isAuthenticated) {       
+       dispatch(userloginActions.userLoginSuccess(data));
+       redirectToDashboard();
+    }
+   
     const signinLabel = isLoading ? 'Logining...' : 'Login';
     const disabledButton = isLoading || (!fields.username || !fields.password);
 
@@ -63,7 +79,7 @@ const LoginForm = props => {
         <LoginContainer>
             <LoginWrapper>
                 <LoginCard>                    
-                    <FormControl>
+                    <FormControl>                       
                         { isError && <AlertWrapper><Alert text={'User not found or incorrect password'} /> </AlertWrapper>}
                         <Form onSubmit={onSubmitHandler}> 
                             <TextField 
