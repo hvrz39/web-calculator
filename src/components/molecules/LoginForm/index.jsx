@@ -25,21 +25,23 @@ const LoginWrapper = styled.div
 const LoginCard = styled.div
 `
     padding: 50px 60px;
-    max-width: 420px;
+    max-width: 470px;
     width: 100%;
     background: #fff
 `;
 
 const FormControl = styled.div
 `   padding: 50px 60px;
-    max-width: 420px;
+    max-width: 470px;
 `;    
-
+const AlertWrapper = styled.div
+`   padding: .5em 0em;    
+`;  
 const LoginForm = props => {   
 
     const authService = new AuthService();    
     const [fields, setFields]  = useFormFields({ username: '', password: ''});
-    const { mutate, data, isError, isLoading, isSuccess, isFetching } = useMutation(credentials => signIn(credentials));    
+    const { mutate, data, isError, isLoading, isSuccess } = useMutation(credentials => signIn(credentials));    
     const signIn = async credentials => await authService.signin(credentials);      
 
     function onSubmitHandler(e) {
@@ -51,6 +53,7 @@ const LoginForm = props => {
    
     if(isSuccess) {
        // dispatch goes here
+       console.log(data)
     }
 
     const signinLabel = isLoading ? 'Logining...' : 'Login';
@@ -61,7 +64,7 @@ const LoginForm = props => {
             <LoginWrapper>
                 <LoginCard>                    
                     <FormControl>
-                        { isError && <Alert text={'User not found or incorrect password'} /> }
+                        { isError && <AlertWrapper><Alert text={'User not found or incorrect password'} /> </AlertWrapper>}
                         <Form onSubmit={onSubmitHandler}> 
                             <TextField 
                                 id={'username'}                               
