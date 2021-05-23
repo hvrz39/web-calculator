@@ -1,6 +1,5 @@
 import { createStore, combineReducers, compose } from 'redux';
 import userlogin from './userlogin.reducer';
-import persistState from 'redux-localstorage';
 import { loadState, saveState } from '../localStorage';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

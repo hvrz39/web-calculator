@@ -6,7 +6,7 @@ export const api = () =>
         responseType: "json",
         contentType: "application/json",
         headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OSwidXNlcm5hbWUiOiJyemhvcmFjaW92QGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsInN0YXR1cyI6ImFjdGl2ZSIsImlhdCI6MTYyMTM5NzA2MSwiZXhwIjoxNjIxNDgzNDYxfQ.jeQU0EGVeaRxgB9cnXPccGNbrnuXZPKt_VNnW1amDlw`,
+            Authorization: `Bearer ${window.localStorage.access_token ? window.localStorage.access_token : ''}`
         },
     });
 

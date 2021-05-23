@@ -46,11 +46,10 @@ const LoginForm = props => {
     const [fields, setFields]  = useFormFields({ username: 'rzhoraciov@gmail.com', password: 'admin'});
     
     const signIn = async credentials => await authService.signin(credentials);  
-    const { mutate, data, isError, isLoading, isSuccess } = useMutation(credentials => signIn(credentials));    
+    const { mutate, data, isError, isLoading, isSuccess, error } = useMutation(credentials => signIn(credentials));    
 
     const dispatch = useDispatch();    
-    const userlogin = useSelector(state=> state.userlogin);    
-    const state = useSelector(state=> state);    
+    const userlogin = useSelector(state=> state.userlogin);        
     const history = useHistory();
     
     function onSubmitHandler(e) {
@@ -64,14 +63,19 @@ const LoginForm = props => {
     function redirectToDashboard() {
         history.push("/dashboard");
     }
+
     if(userlogin.isAuthenticated) {
         redirectToDashboard();
     }
-    if(isSuccess && !userlogin.isAuthenticated) {       
+
+    if(isSuccess && !userlogin.isAuthenticated) {     
+
+        window.localStorage.access_token = data.access_token;
+        window.localStorage.expiresIn = data.expiresIn;  
        dispatch(userloginActions.userLoginSuccess(data));
        redirectToDashboard();
-    }
-   
+    }    
+    
     const signinLabel = isLoading ? 'Logining...' : 'Login';
     const disabledButton = isLoading || (!fields.username || !fields.password);
 
@@ -80,7 +84,7 @@ const LoginForm = props => {
             <LoginWrapper>
                 <LoginCard>                    
                     <FormControl>                       
-                        { isError && <AlertWrapper><Alert text={'User not found or incorrect password'} /> </AlertWrapper>}
+                        { isError && <AlertWrapper><Alert text={'User or password incorrect'} /> </AlertWrapper>}
                         <Form onSubmit={onSubmitHandler}> 
                             <TextField 
                                 id={'username'}                               
