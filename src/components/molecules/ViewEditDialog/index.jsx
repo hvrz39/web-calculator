@@ -4,6 +4,7 @@ import { Button } from "../../atoms";
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
+import PropTypes from "prop-types";
 
 const useStyles = makeStyles(theme => ({
   dialogWrapper: {
@@ -16,15 +17,18 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function Popup(props) {
+export default function ViewEditDialog(props) {
 
   const { 
       title, 
       children, 
       openPopup, 
       maxWidth="md", 
+      titleProperty=null,
       setOpenPopup, 
+      data,
       onClose=f=>f, 
+      config,
       actions } = props;
   const [ edit, setEdit ] = useState(false);
   const classes = useStyles();
@@ -50,7 +54,7 @@ export default function Popup(props) {
           <DialogTitle className={classes.dialogTitle}>
               <div style={{ display: 'flex' }}>
                 <Typography variant="h6" component="div" style={{ flexGrow: 1 }}>
-                      { title ?? null}
+                      { titleProperty ? data[titleProperty] : 'Create'}
                   </Typography>
                 <IconButton 
                     onClick={() => onShowEditMode(true)}
@@ -68,7 +72,17 @@ export default function Popup(props) {
               </div>
           </DialogTitle>
           <DialogContent dividers>
-              {children}             
+             { !edit && 
+              <>
+                <h3>Details</h3>
+                {config.map(({ id, label }) => <p>-<b>{label} </b>: { data[id]}</p>)}
+              </>
+             }    
+             { edit && 
+              <>
+                <h3>Edit</h3>                
+              </>
+             }       
           </DialogContent>
           {edit && <DialogActions>
             <Button 
@@ -86,3 +100,9 @@ export default function Popup(props) {
       </Dialog>
   )
 }
+
+
+ViewEditDialog.propTypes = {
+  config: PropTypes.array.isRequired,
+  data: PropTypes.object.isRequired
+};

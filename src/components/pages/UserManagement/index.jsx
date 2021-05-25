@@ -1,48 +1,48 @@
 import React, { useState, useEffect } from 'react';
-import { DataGrid, Popup } from '../../molecules';
+import { DataGrid, ViewEditDialog } from '../../molecules';
 import UserService  from '../../../services/user.service'
-import { usersTableConfig } from '../../../common/user.table.config';
+import { usersTableConfig } from '../../../common/table.config';
+import { usersFormConfig } from '../../../common/form.config';
 import { useQuery,  } from 'react-query'; 
 
 function UserManagementPage() {
 
-    const userService = new UserService();
-  
+    const userService = new UserService();  
     const [openDialog, setOpenDialog] = useState(false);
-    const [selectedUser, setSelectedUser] = useState(-1);
-        
-    const { refetch } =  useQuery(['fetch-user', selectedUser], (id) => fetchUser(id), {  
-            refetchOnWindowFocus: false,   
-            enabled: false         
-        })
+    const [selectedUserId, setSelectedUserId] = useState(-1);
+    const [selectedUser, setUserSelected] = useState({});
+
+    const { refetch } =  useQuery(
+                ['fetch-user', selectedUserId], 
+                () => fetchUser(selectedUserId), {  
+                    refetchOnWindowFocus: false,   
+                    enabled: false         
+                });
     
-        useEffect(() => {            
-            refetchUser();
-        }, [selectedUser])
+    useEffect(() => {            
+        refetchUser();
+    }, [ selectedUserId ]);
 
     async function refetchUser() {
-        if(selectedUser !== -1) {
+        if(selectedUserId !== -1) {
             const { isSuccess, data } = await refetch();
-            if(isSuccess) {
+            if(isSuccess) {                
+                setUserSelected(data);
                 setOpenDialog(true);
-            }
-            console.log('response', {isSuccess, data })
+            }            
     }}
 
-    async function fetchUser({ queryKey }) {        
-        const [,userId] = queryKey;
-        return await userService.getById(userId)
-    }
+    const fetchUser = async userId => await userService.getById(userId);
 
     const onRowClikHandler = userId => {            
-        setSelectedUser(userId);
+        setSelectedUserId(userId);
     }
 
     const onCloseHandler = state => {   
-        setSelectedUser(-1);
+        setSelectedUserId(-1);
         setOpenDialog(state);
     }
-
+    
     return (
       <div style={{ width: '800px', margin:'auto'}}>
         <br/>
@@ -56,14 +56,22 @@ function UserManagementPage() {
             defaultSort={'role asc'}   
             onRowClick={onRowClikHandler}           
         />    
-         <Popup 
-            title="" 
+         <ViewEditDialog 
+            title="Add/Edit User" 
             maxWidth="sm"
+            titleProperty={'username'}
             openPopup={openDialog}
+            config={usersFormConfig}
+            data={selectedUser}
             onClose={onCloseHandler}
             setOpenPopup={f=>f}>
-                <p>Info user</p>
-        </Popup>
+                <>
+                {/* {
+                    Object.keys(userSelected).map(k => <p key={k}>{userSelected[k]}</p> )
+                } */}
+                <p>{selectedUser.username}</p>
+                </>
+        </ViewEditDialog>
       </div>
     )
   }
