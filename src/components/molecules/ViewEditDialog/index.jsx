@@ -5,6 +5,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import PropTypes from "prop-types";
+import { oneColumnTwoRows } from '../../../common/form.config';
+import DynamicForm from '../DynamicForm';
 
 const useStyles = makeStyles(theme => ({
   dialogWrapper: {
@@ -56,19 +58,23 @@ export default function ViewEditDialog(props) {
                 <Typography variant="h6" component="div" style={{ flexGrow: 1 }}>
                       { titleProperty ? data[titleProperty] : 'Create'}
                   </Typography>
-                <IconButton 
-                    onClick={() => onShowEditMode(true)}
-                    aria-label="delete" 
-                    className={classes.margin}>
-                    <EditIcon fontSize="small" />
-                </IconButton>
-                <IconButton 
-                    aria-label="close" 
-                    className={classes.margin} 
-                    onClick={onCloseHandler}
-                    size="small">
-                    <CloseIcon fontSize="inherit" />
-                </IconButton>        
+                { !edit && 
+                <>
+                  <IconButton 
+                      onClick={() => onShowEditMode(true)}
+                      aria-label="delete" 
+                      className={classes.margin}>
+                      <EditIcon fontSize="small" />
+                  </IconButton>
+                  <IconButton 
+                      aria-label="close" 
+                      className={classes.margin} 
+                      onClick={onCloseHandler}
+                      size="small">
+                      <CloseIcon fontSize="inherit" />
+                  </IconButton>        
+                </>
+              }
               </div>
           </DialogTitle>
           <DialogContent dividers>
@@ -78,10 +84,12 @@ export default function ViewEditDialog(props) {
                 {config.map(({ id, label }) => <p>-<b>{label} </b>: { data[id]}</p>)}
               </>
              }    
-             { edit && 
-              <>
-                <h3>Edit</h3>                
-              </>
+             { edit &&                            
+                <DynamicForm         
+                  title={''}
+                  data={data}
+                  isLoading={false}
+                  config={oneColumnTwoRows} />                          
              }       
           </DialogContent>
           {edit && <DialogActions>
