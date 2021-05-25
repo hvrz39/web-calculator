@@ -6,7 +6,7 @@ import { useQuery, useQueryClient } from 'react-query';
 import './App.css';
 import {DataGrid} from './components/molecules';
 import { LoginForm, NavBar } from './components/molecules';
-import { UserManagementPage } from './components/pages';
+import { UserManagementPage, UserBalanceManagementPage } from './components/pages';
 
 import styled from 'styled-components';
 
@@ -68,7 +68,7 @@ const ProtectedPage = prop => {
         <Router>
           <Switch>
             <Route exact path='/balance'  >
-                <UserBalancePage />
+                <UserBalanceManagementPage />
             </Route>
             <Route exact  path='/users' >
               <UserManagementPage />
@@ -89,14 +89,6 @@ function UserPage2() {
   return (
     <div>
       User page2
-    </div>
-  )
-}
-
-function UserBalancePage() {
-  return (
-    <div>
-      User balance page
     </div>
   )
 }

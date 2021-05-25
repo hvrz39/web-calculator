@@ -20,22 +20,22 @@ const useStyles = makeStyles(theme => ({
 
 const Form = props => {
 
-    const { title, data, config, ref, isLoading } = props;
+    const { title, data, config, fieldsRef, isLoading } = props;
     const { columns } = config;
     const classes = useStyles();    
     const [fields, handleFieldChange, setFields ] = useFormFields(data);
-
+    
     // first load
     useEffect(() => {        
         if(data){
-            setFields(data)
+            setFields(data)            
         }
     }, []);
-
+   
     // updates fields to ref
     useEffect(() => {
-        if(ref) {
-            ref.current = fields
+        if(fieldsRef) {
+            fieldsRef.current = fields
         }
     }, [fields]);
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, makeStyles, Typography } from '@material-ui/core';
 import { Button } from "../../atoms";
 import CloseIcon from '@material-ui/icons/Close';
@@ -31,21 +31,28 @@ export default function ViewEditDialog(props) {
       data,
       onClose=f=>f, 
       config,
+      onSave,
       actions } = props;
   const [ edit, setEdit ] = useState(false);
   const classes = useStyles();
+  const ref = useRef();
 
   useEffect(() => {
     console.log('moundint')
   }, [])
 
   function onCloseHandler() {
-        onClose(false)
-        setOpenPopup(false)
+        onClose(false);
+        setOpenPopup(false);
   }
 
   function onShowEditMode(state) {
       setEdit(state);
+  }
+
+  function onClickSaveHandler() {
+    onClose(false);
+    onSave(ref.current)
   }
 
   return (
@@ -85,12 +92,13 @@ export default function ViewEditDialog(props) {
              { !edit && 
               <>
                 <h3>Details</h3>
-                {config.map(({ id, label }) => <p>-<b>{label} </b>: { data[id]}</p>)}
+                {config.map(({ id, label }) => <p key={`detail-${id}`}>-<b>{label} </b>: { data[id]}</p>)}
               </>
              }    
              { edit &&                            
                 <DynamicForm         
                   title={''}
+                  fieldsRef={ref}
                   data={data}
                   isLoading={false}
                   config={userFormOneColumnConfig} />                          
@@ -99,7 +107,7 @@ export default function ViewEditDialog(props) {
           {edit && <DialogActions>
             <Button 
                 autoFocus 
-                onClick={f=>f} 
+                onClick={onClickSaveHandler} 
                 color="primary" 
                 text="Save" />
             <Button 

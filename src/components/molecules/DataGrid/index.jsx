@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
         rowsPerPage, 
         totalEntries, 
         config, 
-        defaultKey, 
+        defaultKey='id', 
         dataSourceId,
         defaultSort,
         onRowClick=f=>f,

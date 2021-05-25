@@ -32,7 +32,7 @@ const NavBar = props => {
                 <NavLink to='/users' onClick={() => history.push('/users')} >User Management </NavLink> | 
                 <NavLink to="/balance" onClick={() => history.push('/balance')} >User Balance </NavLink> |
                 <NavLink to='/' >user 2</NavLink> |
-                <Link onClick={onClickHandler}>Logout</Link>
+                <a onClick={onClickHandler}>Logout</a>
             </nav>          
         </NavContainer>
     )

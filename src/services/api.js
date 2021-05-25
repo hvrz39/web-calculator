@@ -15,5 +15,6 @@ export const api = () =>
 export const apiPaths = {
     users: `/users`,
     user: `/users/:id`,
-    signin: `/auth/signin`
+    signin: `/auth/signin`,
+    userbalances: `/userbalances`,
 };
