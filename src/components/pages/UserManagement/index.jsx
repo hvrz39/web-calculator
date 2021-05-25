@@ -55,8 +55,16 @@ function UserManagementPage() {
             dataSource={userService.getAll}
             defaultSort={'role asc'}   
             onRowClick={onRowClikHandler}           
+        />   
+        <DataGrid               
+            config={usersTableConfig}              
+            defaultKey={'id'}             
+            dataSourceId={'fetch-users'}
+            dataSource={userService.getAll}
+            defaultSort={'role asc'}   
+            onRowClick={onRowClikHandler}           
         />    
-         <ViewEditDialog 
+        {openDialog && <ViewEditDialog 
             title="Add/Edit User" 
             maxWidth="sm"
             titleProperty={'username'}
@@ -64,14 +72,8 @@ function UserManagementPage() {
             config={usersFormConfig}
             data={selectedUser}
             onClose={onCloseHandler}
-            setOpenPopup={f=>f}>
-                <>
-                {/* {
-                    Object.keys(userSelected).map(k => <p key={k}>{userSelected[k]}</p> )
-                } */}
-                <p>{selectedUser.username}</p>
-                </>
-        </ViewEditDialog>
+            setOpenPopup={f=>f} />
+        }
       </div>
     )
   }

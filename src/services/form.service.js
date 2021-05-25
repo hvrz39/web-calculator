@@ -1,7 +1,6 @@
 
 import React from 'react';
-// import { INPUT } from '../components/atoms/Input';
-import { TextField, Checkbox, Select  }  from '../components/atoms';
+import { TextField, Checkbox, Select, RadioGroup  }  from '../components/atoms';
 
 export const FormField = ({ item, handleFieldChange, fields }) => {
 
@@ -29,15 +28,15 @@ export const FormField = ({ item, handleFieldChange, fields }) => {
                     onChange={handleFieldChange}  {...rest} />);
         }
 
-        // case INPUT.RADIO:  {
-        //     return <LSRadioGroup
-        //             id={name} 
-        //             name={field} 
-        //             value={fields[field]} 
-        //             onChange={handleFieldChange}  
-        //             {...rest} />
+        case 'radio':  {
+            return <RadioGroup
+                    id={name} 
+                    name={field} 
+                    value={fields[field]} 
+                    onChange={handleFieldChange}  
+                    {...rest} />
 
-        // }
+        }
         case 'checkbox':  {
             return <Checkbox
                     id={name} 

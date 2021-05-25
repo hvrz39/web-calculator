@@ -15,7 +15,7 @@ export const usersFormConfig = [
         disablePadding: false, 
         label: "Role" ,
         align: "right",
-    },
+    },    
     { 
         id: "status", 
         type: 'select',
@@ -24,7 +24,7 @@ export const usersFormConfig = [
   ];
 
 
-  export const oneColumnTwoRows = {
+  export const userFormOneColumnConfig = {
     columns: [
             [
                 {                     
@@ -41,14 +41,7 @@ export const usersFormConfig = [
                     required: true, 
                     placeholder: 'Role' 
                 },
-              //   { 
-              //     field: 'status', 
-              //     label: 'Status', 
-              //     type:  'checkbox', 
-              //     required: true, 
-              //     placeholder: 'Status' 
-              // },
-                  {                    
+                {                    
                     field: 'status', 
                     type: 'select', 
                     options: [{ value: 'active', label: 'Active'}, { value: 'inactive', label: 'Inactive'}],
@@ -64,6 +57,14 @@ export const usersFormConfig = [
                   required: true, 
                   placeholder: 'Role'
               },
+              {                    
+                  field: 'role', 
+                  type: 'radio', 
+                  options: [{ value: 'admin', label: 'Admin'}, { value: 'user', label: 'User'}],
+                  label: 'Select radio ', 
+                  required: true, 
+                  placeholder: 'example@domain.com'
+              }, 
             ],
             // [
             //     {                    

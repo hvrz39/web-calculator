@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, makeStyles, Typography } from '@material-ui/core';
 import { Button } from "../../atoms";
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import PropTypes from "prop-types";
-import { oneColumnTwoRows } from '../../../common/form.config';
+import { userFormOneColumnConfig } from '../../../common/form.config';
 import DynamicForm from '../DynamicForm';
 
 const useStyles = makeStyles(theme => ({
@@ -34,6 +34,10 @@ export default function ViewEditDialog(props) {
       actions } = props;
   const [ edit, setEdit ] = useState(false);
   const classes = useStyles();
+
+  useEffect(() => {
+    console.log('moundint')
+  }, [])
 
   function onCloseHandler() {
         onClose(false)
@@ -89,7 +93,7 @@ export default function ViewEditDialog(props) {
                   title={''}
                   data={data}
                   isLoading={false}
-                  config={oneColumnTwoRows} />                          
+                  config={userFormOneColumnConfig} />                          
              }       
           </DialogContent>
           {edit && <DialogActions>
