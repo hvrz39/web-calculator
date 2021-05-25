@@ -2,19 +2,19 @@ import React from 'react'
 import { Button, makeStyles, Icon } from "@material-ui/core";
 
 
-const useStyles = makeStyles(theme => ({
+const useStyles = ({ width='100%' }) => makeStyles(theme => ({
     root: {
         margin: ".5em 0em",
-        width: '100%'
+        width: width ?? null
     },
     label: {
         textTransform: 'none',
         margin: ".5em .4em",
-        width: '100%'
+        width: width ?? null
     }
 }))
 
-export default function LSButton(props) {
+export default function MyButton(props) {
 
     const { 
         text, 
@@ -24,9 +24,10 @@ export default function LSButton(props) {
         onClick, 
         startIcon,         
         disabled=false,
+        width=null,
         endIcon, 
         ...other } = props
-    const classes = useStyles();
+    const classes = useStyles({ width })();
     
     return (
         <Button

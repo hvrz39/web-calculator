@@ -60,22 +60,22 @@ const LoginForm = props => {
         dispatch(userloginActions.userLoginLoad())
     }
    
-    function redirectToDashboard() {
-        history.push("/dashboard");
+    function redirectToUsers() {
+        history.push("/users");
     }
 
-    if(userlogin.isAuthenticated) {
-        redirectToDashboard();
-    }
+    // if(userlogin.isAuthenticated) {
+    //     redirectToUsers();
+    // }
 
     if(isSuccess && !userlogin.isAuthenticated) {     
 
         window.localStorage.access_token = data.access_token;
         window.localStorage.expiresIn = data.expiresIn;  
        dispatch(userloginActions.userLoginSuccess(data));
-       redirectToDashboard();
+       redirectToUsers();
     }    
-    
+
     const signinLabel = isLoading ? 'Logining...' : 'Login';
     const disabledButton = isLoading || (!fields.username || !fields.password);
 
@@ -105,6 +105,7 @@ const LoginForm = props => {
                         
                             <Button 
                                 text={signinLabel}
+                                width={'100%'}
                                 disabled={disabledButton}
                                 onClick={onSubmitHandler}
                                  />    
