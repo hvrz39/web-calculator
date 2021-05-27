@@ -16,13 +16,13 @@
                     required: true, 
                     placeholder: 'Status'
                 },
-                {                    
-                    field: 'password', 
-                    type: 'password',                     
-                    label: 'Password', 
-                    required: true, 
-                    placeholder: 'Password'
-                },
+                // {                    
+                //     field: 'password', 
+                //     type: 'password',                     
+                //     label: 'Password', 
+                //     required: true, 
+                //     placeholder: 'Password'
+                // },
               //   {                    
               //     field: 'role', 
               //     type: 'select', 

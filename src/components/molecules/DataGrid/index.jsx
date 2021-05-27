@@ -46,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
         defaultKey='id', 
         dataSourceId,
         defaultSort,
+        queryRef,
         onRowClick=f=>f,
         dataSource } = props;    
        
@@ -56,17 +57,22 @@ const useStyles = makeStyles((theme) => ({
     const [orderBy, setOrderBy] = useState("username");
     const [selected, setSelected] = useState([]);
     const [perPage, setPerPage] = useState(10);        
-
+    queryRef.current = [dataSourceId, sort, page, perPage]
     const { 
         data, 
         isLoading, 
         isFetching, 
         isError, 
+        refetch,
         error } = useQuery(
             [dataSourceId, sort, page, perPage], 
             () => fetchDataSource(sort, page, perPage), 
-            { staleTime: 2000, refetchOnWindowFocus: false  }
+            { staleTime: 2000, refetchOnWindowFocus: true  }
         );
+
+    useEffect(() => {
+        queryRef.current = [dataSourceId, sort, page, perPage]
+    }, [sort, page, perPage]);
 
     const fetchDataSource = async (sort, offset, limit) => {      
         const params = {

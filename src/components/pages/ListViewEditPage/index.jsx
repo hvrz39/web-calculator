@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { DataGrid, ViewEditDialog } from '../../molecules';
 import { Button } from '../../atoms';
-import { useQuery, useMutation } from 'react-query'; 
+import { useQuery, useMutation, useQueryClient } from 'react-query'; 
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { getPageListEditConfig } from '../../../common/page.config';
 import { ViewEditDialogState } from '../../../common/enums';
-
+import { v4 } from 'uuid';
 const Container = styled.div
 `
     width: 800px; 
@@ -45,6 +45,9 @@ function ListViewEditPage({ page }) {
     const [selectedId, setSelectedId] = useState(-1);
     const [selectedUser, setUserSelected] = useState({});
     const [dialogMode, setDialogMode] = useState(ViewEditDialogState.View);
+    const queryRef = useRef(null);
+
+    const queryClient = useQueryClient()
 
     const { refetch } =  useQuery(
                 [fetchOnQueryIdentifier, selectedId], 
@@ -53,8 +56,32 @@ function ListViewEditPage({ page }) {
                     enabled: false         
                 });
 
+    const { 
+        mutate: createUser, 
+            } = useMutation(data => saveData(data), {
 
-    const { mutate: createUser, data, isError, isLoading, isSuccess, error } = useMutation(data => saveData(data));  
+            onMutate: async (newData) => {
+              
+                await queryClient.cancelQueries(queryRef.current);                
+                const snapshot = await queryClient.getQueryData(queryRef.current);
+               
+                const updateRows = (rows, newData) => 
+                                                    newData.id ? 
+                                                        rows.map(r => r.id === newData.id ? newData : r ) 
+                                                        : [...rows, { ...newData, id: v4() }];
+                    
+                
+                await queryClient
+                            .setQueryData(
+                                queryRef.current, 
+                                ({ count, rows }) => ({ count, rows: updateRows(rows, newData )})
+                            );
+          
+                return () => queryClient.setQueryData(queryRef.current, snapshot);
+              },
+              onError: async (error, newData, rollback) =>   await rollback(),
+              onSettled: async () => await queryClient.refetchQueries(queryRef.current),
+        });  
 
     const saveData = async data => {
         if (!data.id) {
@@ -118,7 +145,8 @@ function ListViewEditPage({ page }) {
             dataSourceId={fetchAllQueryIdentifier}
             dataSource={fetchAll}
             defaultSort={defaultSortColumn}   
-            onRowClick={onRowClikHandler}           
+            onRowClick={onRowClikHandler}   
+            queryRef={queryRef}        
         />           
         {openDialog && 
             <ViewEditDialog 
