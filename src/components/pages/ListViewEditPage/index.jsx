@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { DataGrid, ViewEditDialog } from '../../molecules';
+import { Button } from '../../atoms';
 import { useQuery,  } from 'react-query'; 
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { getPageListEditConfig } from '../../../common/page.config';
+import { ViewEditDialogState } from '../../../common/enums';
 
 const Container = styled.div
 `
@@ -17,12 +19,12 @@ const Title = styled.div `
     padding-bottom: 2em;
 `;
 
-function ListViewEditPage(props) {
+const ButtonPanel = styled.div `    
+    padding-bottom: 2em;
+    text-align: right
+`;
 
-    const {        
-        onSave,
-        page='user'
-    } = props ;
+function ListViewEditPage({ page }) {
     
     const { 
         fetchAll,
@@ -38,6 +40,7 @@ function ListViewEditPage(props) {
     const [openDialog, setOpenDialog] = useState(false);
     const [selectedId, setSelectedId] = useState(-1);
     const [selectedUser, setUserSelected] = useState({});
+    const [dialogMode, setDialogMode] = useState(ViewEditDialogState.View);
 
     const { refetch } =  useQuery(
                 [fetchOnQueryIdentifier, selectedId], 
@@ -61,18 +64,32 @@ function ListViewEditPage(props) {
 
     const fetchUser = async userId => await fetchById(userId);
 
-    const onRowClikHandler = userId => {            
+    const onRowClikHandler = userId => {   
+        setDialogMode(ViewEditDialogState.EditCreate);
         setSelectedId(userId);
     }
 
     const onCloseHandler = state => {   
+        setUserSelected({});
         setSelectedId(-1);
         setOpenDialog(state);
+    }
+
+    const onAddClickHandler = () => {
+        setDialogMode(ViewEditDialogState.Create);
+        setOpenDialog(true);
+    }
+
+    const onSaveClickHandler = (data) => {
+        console.log('data', data);
     }
     
     return (
       <Container>   
-        <Title><h1>{mainTitle}</h1></Title>             
+        <Title><h1>{mainTitle}</h1></Title>   
+        <ButtonPanel>
+            <Button text="Add" onClick={onAddClickHandler} />
+        </ButtonPanel>         
         <DataGrid               
             config={gridConfig}                                   
             dataSourceId={fetchAllQueryIdentifier}
@@ -89,7 +106,8 @@ function ListViewEditPage(props) {
                 editConfig={editFormConfig}
                 viewConfig={viewConfig}
                 data={selectedUser}
-                onSave={onSave}
+                onSave={onSaveClickHandler}
+                mode={dialogMode}
                 onClose={onCloseHandler}
                 setOpenPopup={f=>f} />
         }

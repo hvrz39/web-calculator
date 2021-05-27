@@ -46,7 +46,7 @@ const LoginForm = props => {
     const [fields, setFields]  = useFormFields({ username: 'rzhoraciov@gmail.com', password: 'admin'});
     
     const signIn = async credentials => await authService.signin(credentials);  
-    const { mutate, data, isError, isLoading, isSuccess, error } = useMutation(credentials => signIn(credentials));    
+    const { mutate: createToken, data, isError, isLoading, isSuccess, error } = useMutation(credentials => signIn(credentials));    
 
     const dispatch = useDispatch();    
     const userlogin = useSelector(state=> state.userlogin);        
@@ -56,7 +56,7 @@ const LoginForm = props => {
         e.preventDefault();
         const { username, password } = fields;
         const credentials =  {  username, password };
-        mutate(credentials);
+        createToken(credentials);        
         dispatch(userloginActions.userLoginLoad())
     }
    

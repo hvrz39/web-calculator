@@ -6,6 +6,8 @@ import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import PropTypes from "prop-types";
 import DynamicForm from '../DynamicForm';
+import styled from 'styled-components';
+import { ViewEditDialogState } from '../../../common/enums';
 
 const useStyles = makeStyles(theme => ({
   dialogWrapper: {
@@ -17,6 +19,27 @@ const useStyles = makeStyles(theme => ({
       paddingRight: '0px'
   }
 }))
+
+const DialogTitleContent = styled.div
+`
+  display:flex;
+`
+const ButtonPanel = styled.div
+`
+  display:flex;
+  width: 100%;
+`
+
+const ButtonPaneLeft = styled.div
+`
+  text-alight: left;
+  flex: 1;
+
+`
+const ButtonPaneRight = styled.div
+`  text-alight: right;  
+  flex: 1;
+`
 
 export default function ViewEditDialog(props) {
 
@@ -30,15 +53,17 @@ export default function ViewEditDialog(props) {
       data,
       onClose=f=>f, 
       viewConfig,
-      onSave,
+      onSave,      
       editConfig,
+      mode=ViewEditDialogState.View,
       actions } = props;
-  const [ edit, setEdit ] = useState(false);
+
+  const [viewState, setViewState ] = useState(mode);
+  const [ edit, setEdit ] = useState(  mode === ViewEditDialogState.Create ?? false);
   const classes = useStyles();
   const ref = useRef();
-
-  useEffect(() => {
-    console.log('moundint')
+   
+  useEffect(() => {    
   }, [])
 
   function onCloseHandler() {
@@ -55,6 +80,15 @@ export default function ViewEditDialog(props) {
     onSave(ref.current)
   }
 
+  function onCloseClickHandler() {
+    viewState === ViewEditDialogState.Create ? 
+          onClose(false)
+          :onShowEditMode(false);
+  }
+  
+  const create = mode === ViewEditDialogState.Create;
+  const editCreate = mode === ViewEditDialogState.EditCreate;
+  
   return (
       <Dialog 
         open={openPopup} 
@@ -65,11 +99,11 @@ export default function ViewEditDialog(props) {
         classes={{ paper: classes.dialogWrapper }}>
           
           <DialogTitle className={classes.dialogTitle}>
-              <div style={{ display: 'flex' }}>
+              <DialogTitleContent>
                 <Typography variant="h6" component="div" style={{ flexGrow: 1 }}>
                       { titleProperty ? data[titleProperty] : 'Create'}
                   </Typography>
-                { !edit && 
+                { !edit && editCreate && 
                 <>
                   <IconButton 
                       onClick={() => onShowEditMode(true)}
@@ -86,10 +120,10 @@ export default function ViewEditDialog(props) {
                   </IconButton>        
                 </>
               }
-              </div>
+              </DialogTitleContent>
           </DialogTitle>
           <DialogContent dividers>
-             { !edit && 
+             { !edit && !create && 
               <>
                 <h3>Details</h3>
                 {viewConfig.map(({ id, label }) => <p key={`detail-${id}`}>-<b>{label} </b>: { data[id]}</p>)}
@@ -104,16 +138,29 @@ export default function ViewEditDialog(props) {
                   config={editConfig} />                          
              }       
           </DialogContent>
-          {edit && <DialogActions>
-            <Button 
-                autoFocus 
-                onClick={onClickSaveHandler} 
-                color="primary" 
-                text="Save" />
-            <Button 
-                onClick={() => onShowEditMode(false)}
-                color="default" 
-                text="Close" />
+          { edit && <DialogActions>
+            <ButtonPanel>
+              <ButtonPaneLeft>
+                { !create && 
+                    <Button 
+                      autoFocus 
+                      onClick={f=>f} 
+                      color="secondary" 
+                      text="Delete" />
+                }
+              </ButtonPaneLeft>
+            <ButtonPaneRight>
+            </ButtonPaneRight>
+              <Button 
+                  autoFocus 
+                  onClick={onClickSaveHandler} 
+                  color="primary" 
+                  text="Save" />
+              <Button 
+                  onClick={onCloseClickHandler}
+                  color="default" 
+                  text="Close" />
+            </ButtonPanel>
         </DialogActions>
         }
 

@@ -24,7 +24,7 @@ export const getPageListEditConfig = page => {
                 editFormConfig: userBalanceFormConfig,
                 viewConfig: userBalanceDisplayConfig,
                 defaultSortColumn: 'username asc',
-                mainTitle: `User Balance Management`
+                mainTitle: `User Balance Management`,                
             }
         }
 

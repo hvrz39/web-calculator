@@ -1,8 +1,3 @@
-
-
-
-
-
   export const userFormConfig = {
     columns: [
             [
@@ -12,42 +7,41 @@
                     label: 'Username', 
                     required: true, 
                     placeholder: 'Username'
-                }, 
-                { 
-                    field: 'role', 
-                    label: 'Role', 
-                    type:  'text', 
-                    required: true, 
-                    placeholder: 'Role' 
-                },
+                },                 
                 {                    
                     field: 'status', 
-                    type: 'select', 
-                    options: [{ value: 'active', label: 'Active'}, { value: 'inactive', label: 'Inactive'}],
+                    type: 'radio', 
+                    options: [{ value: 'active', label: 'Active'}, { value: 'inactive', label: 'Inactive'}, { value: 'trial', label: 'Trial'}],
                     label: 'Status', 
                     required: true, 
                     placeholder: 'Status'
                 },
                 {                    
-                  field: 'role', 
-                  type: 'select', 
-                  options: [{ value: 'admin', label: 'Admin'}, { value: 'user', label: 'User'}],
-                  label: 'Role', 
-                  required: true, 
-                  placeholder: 'Role'
-              },
+                    field: 'password', 
+                    type: 'password',                     
+                    label: 'Password', 
+                    required: true, 
+                    placeholder: 'Password'
+                },
+              //   {                    
+              //     field: 'role', 
+              //     type: 'select', 
+              //     options: [{ value: 'admin', label: 'Admin'}, { value: 'user', label: 'User'}],
+              //     label: 'Role', 
+              //     required: true, 
+              //     placeholder: 'Role'
+              // },
               {                    
                   field: 'role', 
                   type: 'radio', 
                   options: [{ value: 'admin', label: 'Admin'}, { value: 'user', label: 'User'}],
-                  label: 'Select radio ', 
+                  label: 'Role ', 
                   required: true, 
-                  placeholder: 'example@domain.com'
+                  placeholder: 'Admin'
               }, 
             ],
     ]
 }
-
 
 export const userBalanceFormConfig = {
   columns: [
