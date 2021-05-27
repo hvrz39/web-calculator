@@ -20,6 +20,8 @@ export const getPageListEditConfig = page => {
             return {
                 fetchAll:userService.getAllBalance,
                 fetchById:userService.getBalance,
+                postEntity: null,
+                updateEntity: null,
                 gridConfig: usersBalanceTableConfig, 
                 editFormConfig: userBalanceFormConfig,
                 viewConfig: userBalanceDisplayConfig,
@@ -35,6 +37,8 @@ export const getPageListEditConfig = page => {
             return {
                 fetchAll:userService.getAll,
                 fetchById:userService.getById,
+                postEntity: userService.create,
+                updateEntity: userService.update,
                 gridConfig: usersTableConfig, 
                 editFormConfig: userFormConfig,
                 viewConfig: usersDisplayConfig,

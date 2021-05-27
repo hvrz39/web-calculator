@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { DataGrid, ViewEditDialog } from '../../molecules';
 import { Button } from '../../atoms';
-import { useQuery,  } from 'react-query'; 
+import { useQuery, useMutation } from 'react-query'; 
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { getPageListEditConfig } from '../../../common/page.config';
@@ -29,6 +29,8 @@ function ListViewEditPage({ page }) {
     const { 
         fetchAll,
         fetchById,
+        postEntity,
+        updateEntity,
         gridConfig, 
         editFormConfig,
         viewConfig,
@@ -48,7 +50,23 @@ function ListViewEditPage({ page }) {
                     refetchOnWindowFocus: false,   
                     enabled: false         
                 });
-    
+
+
+    const { mutate: createUser, data, isError, isLoading, isSuccess, error } = useMutation(data => saveData(data));  
+
+    const saveData = async data => {
+        if (!data.id) {
+            console.log('reating')
+            await postEntity(data);  
+        }
+        else {
+            console.log('updating')
+            await updateEntity(data);
+        }
+    }
+
+
+
     useEffect(() => {            
         refetchUser();
     }, [ selectedId ]);
@@ -82,6 +100,7 @@ function ListViewEditPage({ page }) {
 
     const onSaveClickHandler = (data) => {
         console.log('data', data);
+        createUser(data);
     }
     
     return (
