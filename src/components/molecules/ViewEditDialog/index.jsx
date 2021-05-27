@@ -55,6 +55,7 @@ export default function ViewEditDialog(props) {
       viewConfig,
       onSave,      
       editConfig,
+      canDelete,
       mode=ViewEditDialogState.View,
       actions } = props;
 
@@ -141,13 +142,13 @@ export default function ViewEditDialog(props) {
           { edit && <DialogActions>
             <ButtonPanel>
               <ButtonPaneLeft>
-                { !create && 
+                { !create && canDelete && 
                     <Button 
                       autoFocus 
                       onClick={f=>f} 
                       color="secondary" 
                       text="Delete" />
-                }
+                }              
               </ButtonPaneLeft>
             <ButtonPaneRight>
             </ButtonPaneRight>

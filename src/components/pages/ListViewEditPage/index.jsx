@@ -35,6 +35,8 @@ function ListViewEditPage({ page }) {
         editFormConfig,
         viewConfig,
         defaultSortColumn,
+        canAdd=false,
+        canDelete,
         mainTitle } = getPageListEditConfig(page);
 
     const fetchAllQueryIdentifier = `fetch-active-${page}`;
@@ -106,9 +108,11 @@ function ListViewEditPage({ page }) {
     return (
       <Container>   
         <Title><h1>{mainTitle}</h1></Title>   
-        <ButtonPanel>
-            <Button text="Add" onClick={onAddClickHandler} />
-        </ButtonPanel>         
+        { canAdd && 
+            <ButtonPanel>
+                <Button text="Add" onClick={onAddClickHandler} />
+            </ButtonPanel> 
+        }        
         <DataGrid               
             config={gridConfig}                                   
             dataSourceId={fetchAllQueryIdentifier}
@@ -127,6 +131,7 @@ function ListViewEditPage({ page }) {
                 data={selectedUser}
                 onSave={onSaveClickHandler}
                 mode={dialogMode}
+                canDelete={canDelete}
                 onClose={onCloseHandler}
                 setOpenPopup={f=>f} />
         }
