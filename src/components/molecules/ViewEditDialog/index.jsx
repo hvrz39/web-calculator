@@ -5,7 +5,6 @@ import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import PropTypes from "prop-types";
-import { userFormOneColumnConfig } from '../../../common/form.config';
 import DynamicForm from '../DynamicForm';
 
 const useStyles = makeStyles(theme => ({
@@ -30,8 +29,9 @@ export default function ViewEditDialog(props) {
       setOpenPopup, 
       data,
       onClose=f=>f, 
-      config,
+      viewConfig,
       onSave,
+      editConfig,
       actions } = props;
   const [ edit, setEdit ] = useState(false);
   const classes = useStyles();
@@ -92,7 +92,7 @@ export default function ViewEditDialog(props) {
              { !edit && 
               <>
                 <h3>Details</h3>
-                {config.map(({ id, label }) => <p key={`detail-${id}`}>-<b>{label} </b>: { data[id]}</p>)}
+                {viewConfig.map(({ id, label }) => <p key={`detail-${id}`}>-<b>{label} </b>: { data[id]}</p>)}
               </>
              }    
              { edit &&                            
@@ -101,7 +101,7 @@ export default function ViewEditDialog(props) {
                   fieldsRef={ref}
                   data={data}
                   isLoading={false}
-                  config={userFormOneColumnConfig} />                          
+                  config={editConfig} />                          
              }       
           </DialogContent>
           {edit && <DialogActions>

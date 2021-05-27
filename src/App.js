@@ -1,12 +1,10 @@
 import React from 'react';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import UserService from './services/user.service';
-import { useQuery, useQueryClient } from 'react-query'; 
 import './App.css';
-import {DataGrid} from './components/molecules';
 import { LoginForm, NavBar } from './components/molecules';
-import { UserManagementPage, UserBalanceManagementPage } from './components/pages';
+import { Pages } from './common/page.config';
+import { ListViewEditPage } from './components/pages';
 
 import styled from 'styled-components';
 
@@ -27,27 +25,7 @@ const MainContent = styled.div
 const ProtectedPage = prop => {
 
   const { userlogin: {isAuthenticated} } = useSelector(state=>state);  
-//   const { 
-//     data, 
-//     isLoading, 
-//     isFetching, 
-//     isError, 
-//     error 
-// } = useQuery(
-//         ['fetch-all-users'],            
-//         () => fetchUser(), 
-//         { 
-//             staleTime: 2000,
-//             keepPreviousData: true
-//         }
-//     );
 
-    
-
-  // const fetchUser = async () => {            
-  //     return await userService.getAll({ });
-  // } 
-    
   if(!isAuthenticated) {
     return (
       <Router>
@@ -62,22 +40,20 @@ const ProtectedPage = prop => {
     <WrapperContainer>
      
         <NavBar />
-        {/* <PageContent></PageContent> */}
-        
         <MainContent  >
-        <Router>
-          <Switch>
-            <Route exact path='/balance'  >
-                <UserBalanceManagementPage />
-            </Route>
-            <Route exact  path='/users' >
-              <UserManagementPage />
-            </Route>               
-            <Route exact path='/' >
-              <UserPage2 />
-            </Route> 
-          </Switch>
-        </Router>
+          <Router>
+            <Switch>
+              <Route exact path='/balance'  >
+                <ListViewEditPage page={Pages.balances} />
+              </Route>
+              <Route exact  path='/users' >
+                <ListViewEditPage page={Pages.users} />
+              </Route>               
+              <Route exact path='/' >
+                <UserPage2 />
+              </Route> 
+            </Switch>
+          </Router>
         </MainContent>
     </WrapperContainer>
   )

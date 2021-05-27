@@ -1,24 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import { DataGrid, ViewEditDialog } from '../../molecules';
-
-
 import { useQuery,  } from 'react-query'; 
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { getPageListEditConfig } from '../../../common/page.config';
+
+const Container = styled.div
+`
+    width: 800px; 
+    margin: auto;
+    padding: 10px 0px;   
+`;
+
+const Title = styled.div `
+    text-transform: uppercase;
+    padding-bottom: 2em;
+`;
 
 function ListViewEditPage(props) {
 
-    const { 
-        fetchAllQueryIdentifier,
-        fetchOnQueryIdentifier,
-        fetchAll,
-        fetchById,
-        gridConfig,
-        defaultSortColumn,
-        mainTitle,
+    const {        
         onSave,
-        editFormConfig
+        page='user'
     } = props ;
     
+    const { 
+        fetchAll,
+        fetchById,
+        gridConfig, 
+        editFormConfig,
+        viewConfig,
+        defaultSortColumn,
+        mainTitle } = getPageListEditConfig(page);
+
+    const fetchAllQueryIdentifier = `fetch-active-${page}`;
+    const fetchOnQueryIdentifier = `fetch-${page}`;
     const [openDialog, setOpenDialog] = useState(false);
     const [selectedId, setSelectedId] = useState(-1);
     const [selectedUser, setUserSelected] = useState({});
@@ -55,9 +71,8 @@ function ListViewEditPage(props) {
     }
     
     return (
-      <div style={{ width: '800px', margin:'auto'}}>        
-        <h1>{mainTitle}</h1>
-        <br/>
+      <Container>   
+        <Title><h1>{mainTitle}</h1></Title>             
         <DataGrid               
             config={gridConfig}                                   
             dataSourceId={fetchAllQueryIdentifier}
@@ -65,18 +80,20 @@ function ListViewEditPage(props) {
             defaultSort={defaultSortColumn}   
             onRowClick={onRowClikHandler}           
         />           
-        {openDialog && <ViewEditDialog 
-            title={``}
-            maxWidth="sm"
-            titleProperty={'username'}
-            openPopup={openDialog}
-            config={editFormConfig}
-            data={selectedUser}
-            onSave={onSave}
-            onClose={onCloseHandler}
-            setOpenPopup={f=>f} />
+        {openDialog && 
+            <ViewEditDialog 
+                title={``}
+                maxWidth="sm"
+                titleProperty={'username'}
+                openPopup={openDialog}
+                editConfig={editFormConfig}
+                viewConfig={viewConfig}
+                data={selectedUser}
+                onSave={onSave}
+                onClose={onCloseHandler}
+                setOpenPopup={f=>f} />
         }
-      </div>
+      </Container>
     )
   }
 
@@ -89,5 +106,6 @@ function ListViewEditPage(props) {
     queryId: PropTypes.string.isRequired,
     fetchAll: PropTypes.func.isRequired,
     fetchById: PropTypes.func.isRequired,
-    gridConfig: PropTypes.array.isRequired
+    gridConfig: PropTypes.array.isRequired,
+    displayConfig: PropTypes.array.isRequired
   };

@@ -1,36 +1,27 @@
-import React from 'react';
-// import { DataGrid, ViewEditDialog } from '../../molecules';
-import UserService  from '../../../services/user.service'
-import { usersBalanceTableConfig } from '../../../common/table.config';
-import { usersFormConfig } from '../../../common/form.config';
-// import { useQuery,  } from 'react-query'; 
-import ListViewEditPage from '../ListViewEditPage'
+// import React from 'react';
 
-function UserBalancePage() {
+// // import {  Pages } from '../../../common/page.config';
+// import ListViewEditPage from '../ListViewEditPage';
+// import { getPageListEditConfig, Pages  } from '../../../common/page.config';
 
-    const userService = new UserService();    
+// function UserBalancePage() {
+
+
     
-    
-    const onSaveHandler = data => {
-        console.log(data);
-    }
+//     const onSaveHandler = data => {
+//         console.log(data);
+//     }
+//     const pageConfig = getPageListEditConfig(Pages.balances);
+//     return (      
+//         <ListViewEditPage 
+//             onSave={onSaveHandler}
+//             mainTitle={'User Balance Management'}     
+//             page={Pages.balances}         
+//             fetchAllQueryIdentifier={'fetch-active-users'}
+//             fetchOnQueryIdentifier={'fetch-users'}
+//             { ...pageConfig}
+//           />      
+//     )
+//   }
 
-    return (
-      <div style={{ width: '800px', margin:'auto'}}>
-        <br/>
-            <ListViewEditPage 
-                mainTitle={'User Balance Management'}              
-                fetchAllQueryIdentifier={'fetch-active-users'}
-                fetchOnQueryIdentifier={'fetch-users'}
-                fetchAll={userService.getAllBalance}
-                fetchById={userService.getById}
-                gridConfig={usersBalanceTableConfig}
-                editFormConfig={usersFormConfig}
-                onSave={onSaveHandler}
-                defaultSortColumn={'role asc'}
-               />
-      </div>
-    )
-  }
-
-  export default UserBalancePage
+//   export default UserBalancePage

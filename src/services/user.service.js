@@ -8,6 +8,8 @@ class UserService {
     getById = id => api().get(apiPaths.user.replace(':id', id), {}).then(res => res.data);
 
     getAllBalance = params  => api().get(apiPaths.userbalances, { params }).then(res => res.data)
+
+    getBalance = id  =>  api().get(apiPaths.userbalance.replace(':id', id), {}).then(res => res.data);
     
 }
 
