@@ -26,7 +26,9 @@ export const getPageListEditConfig = page => {
                 editFormConfig: userBalanceFormConfig,
                 viewConfig: userBalanceDisplayConfig,
                 defaultSortColumn: 'username asc',
-                mainTitle: `User Balance Management`,                
+                mainTitle: `User Balance Management`,   
+                canAdd: false,
+                canDelete: false             
             }
         }
 
@@ -43,7 +45,9 @@ export const getPageListEditConfig = page => {
                 editFormConfig: userFormConfig,
                 viewConfig: usersDisplayConfig,
                 defaultSortColumn: 'username asc',
-                mainTitle: `User Management`
+                mainTitle: `User Management`,
+                canAdd: true,
+                canDelete: true             
             }
         }
         default: return {}
