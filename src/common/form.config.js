@@ -56,3 +56,59 @@ export const userBalanceFormConfig = {
           ],          
   ]
 }
+
+export const serviceFormConfig = {
+  columns: [
+          [
+              {                    
+                  field: 'type', 
+                  type: 'select', 
+                  options: [
+                    {
+                     value: 'addition', 
+                     label: 'Addition'
+                    }, { 
+                       value: 'subtraction', 
+                       label: 'Subtraction'
+                    }, { 
+                      value: 'multiplication', 
+                      label: 'Multiplication'
+                    }, { 
+                      value: 'division', 
+                      label: 'Division'
+                  }, {
+                      value: 'square_root', 
+                      label: 'Square Root'
+                  }, {
+                    value: 'free_form', 
+                    label: 'Free Form'
+                  }, {
+                    value: 'random_string', 
+                    label: 'Random String'
+                  }],
+                  label: 'Type', 
+                  required: true, 
+                  placeholder: 'Type'
+              },
+              {                     
+                  field: 'cost', 
+                  type: 'number', 
+                  label: 'Cost', 
+                  required: true, 
+                  placeholder: 'Cost'
+              }, 
+              {                    
+                field: 'status', 
+                type: 'select', 
+                options: [
+                    { value: 'active', label: 'Active'}, 
+                    { value: 'beta', label: 'Beta'}, 
+                    { value: 'inactive', label: 'Inactive'}
+                ],
+                label: 'Status', 
+                required: true, 
+                placeholder: 'Type'
+            },              
+          ],
+  ]
+}

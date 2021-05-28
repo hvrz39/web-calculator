@@ -18,4 +18,6 @@ export const apiPaths = {
     signin: `/auth/signin`,
     userbalances: `/userbalances`,
     userbalance: `/userbalances/:id`,
+    services: `/services`,
+    service: `/services/:id`,
 };

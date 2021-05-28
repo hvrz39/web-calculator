@@ -37,6 +37,7 @@ function ListViewEditPage({ page }) {
         editFormConfig,
         viewConfig,
         defaultSortColumn,
+        defaultSortOrder='asc',
         canAdd=false,
         canDelete,
         mainTitle } = getPageListEditConfig(page);
@@ -157,7 +158,8 @@ function ListViewEditPage({ page }) {
             config={gridConfig}                                   
             dataSourceId={fetchAllQueryIdentifier}
             dataSource={fetchAll}
-            defaultSort={defaultSortColumn}   
+            defaultSortColumn={defaultSortColumn}   
+            defaultSortOrder={defaultSortOrder}
             onRowClick={onRowClikHandler}   
             queryRef={queryRef}        
         />           

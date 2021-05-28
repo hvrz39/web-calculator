@@ -1,11 +1,12 @@
-import { UserService, UserBalanceService } from '../services';
-import { usersBalanceTableConfig, usersTableConfig } from './table.config';
-import { userBalanceFormConfig, userFormConfig } from './form.config';
-import {  userBalanceDisplayConfig, usersDisplayConfig } from './display.config';
+import { UserService, UserBalanceService, Services } from '../services';
+import { usersBalanceTableConfig, usersTableConfig, servicesTableConfig } from './table.config';
+import { userBalanceFormConfig, userFormConfig, serviceFormConfig } from './form.config';
+import {  userBalanceDisplayConfig, usersDisplayConfig, serviceDisplayConfig } from './display.config';
 
 export const Pages = {
     users: 'users',
     balances: 'balances',
+    services: 'services',
     records: 'records',
     myrecords: 'myrecords'
 }
@@ -26,7 +27,8 @@ export const getPageListEditConfig = page => {
                 gridConfig: usersBalanceTableConfig, 
                 editFormConfig: userBalanceFormConfig,
                 viewConfig: userBalanceDisplayConfig,
-                defaultSortColumn: 'username asc',
+                defaultSortColumn: 'username',
+                defaultSortOrder: 'asc',
                 mainTitle: `User Balance Management`,   
                 canAdd: false,
                 canDelete: false             
@@ -52,8 +54,30 @@ export const getPageListEditConfig = page => {
                 gridConfig: usersTableConfig, 
                 editFormConfig: userFormConfig,
                 viewConfig: usersDisplayConfig,
-                defaultSortColumn: 'username asc',
+                defaultSortColumn: 'username',
+                defaultSortOrder: 'asc',
                 mainTitle: `User Management`,
+                canAdd: true,
+                canDelete: true             
+            }
+        }
+
+        case Pages.services: {
+
+            const { getAll, create, getById, update, remove  } = new Services();
+
+            return {
+                fetchAll: getAll,
+                fetchById: getById,
+                postEntity: create, 
+                updateEntity: update, 
+                deleteEntity: remove, 
+                gridConfig: servicesTableConfig, 
+                editFormConfig: serviceFormConfig,
+                viewConfig: serviceDisplayConfig,
+                defaultSortColumn: 'type',
+                defaultSortOrder: 'asc',
+                mainTitle: `Services Management`,   
                 canAdd: true,
                 canDelete: true             
             }

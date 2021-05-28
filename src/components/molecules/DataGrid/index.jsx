@@ -45,16 +45,17 @@ const useStyles = makeStyles((theme) => ({
         config, 
         defaultKey='id', 
         dataSourceId,
-        defaultSort,
+        defaultSortColumn,
+        defaultSortOrder,
         queryRef,
         onRowClick=f=>f,
         dataSource } = props;    
        
     const classes = useStyles();
     const [page, setPage] = useState(1);
-    const [sort, sertSort] = useState(defaultSort);
-    const [order, setOrder] = useState("asc");
-    const [orderBy, setOrderBy] = useState("username");
+    const [sort, sertSort] = useState(`${defaultSortColumn} ${defaultSortOrder}`);
+    const [order, setOrder] = useState(defaultSortOrder);
+    const [orderBy, setOrderBy] = useState(defaultSortColumn);
     const [selected, setSelected] = useState([]);
     const [perPage, setPerPage] = useState(10);        
     queryRef.current = [dataSourceId, sort, page, perPage]

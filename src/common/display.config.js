@@ -36,3 +36,27 @@ export const usersDisplayConfig = [
       label: "Balance"
     }
   ];
+
+
+  export const serviceDisplayConfig = [
+    {
+      id: "id",
+      type: 'label', 
+      label: "Id"
+    },
+    {
+      id: "type",      
+      type: 'text', 
+      label: "Type"
+    },
+    {
+      id: "cost",      
+      type: 'text', 
+      label: "Cost"
+    },
+    {
+      id: "status",      
+      type: 'text', 
+      label: "status"
+    }
+  ];
