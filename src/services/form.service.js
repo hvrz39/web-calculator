@@ -9,6 +9,7 @@ export const FormField = ({ item, handleFieldChange, fields }) => {
     const name = `${type}-${field}`;
 
     switch(type) {
+        case  'number':
         case  'text' : 
         case  'password' : {
             return (<TextField 

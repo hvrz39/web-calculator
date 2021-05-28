@@ -1,4 +1,4 @@
-import UserService  from '../services/user.service';
+import { UserService, UserBalanceService } from '../services';
 import { usersBalanceTableConfig, usersTableConfig } from './table.config';
 import { userBalanceFormConfig, userFormConfig } from './form.config';
 import {  userBalanceDisplayConfig, usersDisplayConfig } from './display.config';
@@ -14,14 +14,15 @@ export const getPageListEditConfig = page => {
 
     switch(page) {
         case Pages.balances: {
-            const userService = new UserService();
+
+            const { getAllBalance, getBalance, create } = new UserBalanceService();
 
             return {
-                fetchAll:userService.getAllBalance,
-                fetchById:userService.getBalance,
-                postEntity: null,
-                updateEntity: null,
-                deleteEntity: null,
+                fetchAll: getAllBalance,
+                fetchById: getBalance,
+                postEntity: create, // user balance can only create
+                updateEntity: null, // a user balance can only be inserted to keep track history
+                deleteEntity: null, // a user balance can only be inserted to keep track history
                 gridConfig: usersBalanceTableConfig, 
                 editFormConfig: userBalanceFormConfig,
                 viewConfig: userBalanceDisplayConfig,
@@ -34,14 +35,20 @@ export const getPageListEditConfig = page => {
 
         case Pages.users: {
 
-            const userService = new UserService();
+            const { 
+                getAll,
+                getById,
+                create,
+                update,
+                remove
+            } = new UserService();
 
             return {
-                fetchAll:userService.getAll,
-                fetchById:userService.getById,
-                postEntity: userService.create,
-                updateEntity: userService.update,
-                deleteEntity: userService.delete,
+                fetchAll: getAll,
+                fetchById: getById,
+                postEntity: create,
+                updateEntity: update,
+                deleteEntity: remove,
                 gridConfig: usersTableConfig, 
                 editFormConfig: userFormConfig,
                 viewConfig: usersDisplayConfig,

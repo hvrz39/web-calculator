@@ -26,7 +26,7 @@ export const usersDisplayConfig = [
 
   export const userBalanceDisplayConfig = [
     {
-      id: "id",
+      id: "user_id",
       type: 'label', 
       label: "Id"
     },

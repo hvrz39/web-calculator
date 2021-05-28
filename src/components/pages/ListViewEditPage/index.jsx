@@ -85,7 +85,7 @@ function ListViewEditPage({ page }) {
     const { mutate: deleteUser } = 
         useMutation(data => deleteUserCall(data), {
             onMutate: async (deletedUserId) => {  
-                
+
                 await queryClient.cancelQueries(queryRef.current);                
                 const snapshot = await queryClient.getQueryData(queryRef.current);
             
@@ -125,8 +125,7 @@ function ListViewEditPage({ page }) {
     }
 
     const onDeleteClickHandler = () => {
-        setOpenDialog(false);
-        console.log('deleting this user', selectedId)
+        setOpenDialog(false);        
         deleteUser(selectedId);
     }
 
@@ -141,7 +140,8 @@ function ListViewEditPage({ page }) {
         setOpenDialog(true);
     }
 
-    const onSaveClickHandler = (data) => {        
+    const onSaveClickHandler = (data) => {       
+        console.log('data', data) 
         saveUser(data);
     }
     

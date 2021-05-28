@@ -1,7 +1,7 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
 
-const Textfield =  props => {
+const MyTextfield =  props => {
 
     const { 
         label, 
@@ -13,8 +13,7 @@ const Textfield =  props => {
         rows, 
         ...rest } = props;
 
-    return (
-        <>
+    return (       
         <TextField
             variant="outlined"
             id={name}       
@@ -28,8 +27,7 @@ const Textfield =  props => {
             disabled={disabled} 
             helperText={''}        
             {...rest} />
-            </>
         )
 }
 
-export default Textfield;
+export default MyTextfield;

@@ -43,10 +43,7 @@ export default function ViewEditDialog(props) {
   const [ edit, setEdit ] = useState(  mode === ViewEditDialogState.Create ?? false);
   const classes = useStyles();
   const ref = useRef();
-   
-  useEffect(() => {    
-  }, [])
-
+  
   function onCloseHandler() {
         onClose(false);
         setOpenPopup(false);

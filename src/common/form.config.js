@@ -48,7 +48,7 @@ export const userBalanceFormConfig = {
           [
               {                     
                   field: 'balance', 
-                  type: 'text', 
+                  type: 'number', 
                   label: 'Balance', 
                   required: true, 
                   placeholder: 'Balance'
