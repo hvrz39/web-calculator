@@ -10,7 +10,6 @@ export const Pages = {
     myrecords: 'myrecords'
 }
 
-
 export const getPageListEditConfig = page => {
 
     switch(page) {

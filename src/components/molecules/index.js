@@ -24,10 +24,10 @@ export const ButtonPaneLeft = styled.div
 
 `
 export const ButtonPaneRight = styled.div
-`  text-alight: right;  
+` text-alight: right;  
   flex: 1;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;  
 `
 export {
     LoginForm,

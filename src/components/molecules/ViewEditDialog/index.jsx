@@ -16,7 +16,10 @@ const useStyles = makeStyles(theme => ({
   },
   dialogTitle: {
       paddingRight: '0px'
-  }
+  },
+  paddingRight: {
+    marginRight: '5px'
+}
 }));
 
 export default function ViewEditDialog(props) {
@@ -33,8 +36,7 @@ export default function ViewEditDialog(props) {
       editConfig,
       canDelete,
       onDeleteClick,
-      mode=ViewEditDialogState.View,
-      actions } = props;
+      mode=ViewEditDialogState.View } = props;
       
   const [openConfirm, setOpenConfirm ] = useState(false);
   const [viewState, setViewState ] = useState(mode);
@@ -103,9 +105,8 @@ export default function ViewEditDialog(props) {
           </DialogTitle>
           <DialogContent dividers>
              { !edit && !create && 
-              <>
-                <h3>Details</h3>
-                {viewConfig.map(({ id, label }) => <p key={`detail-${id}`}>-<b>{label} </b>: { data[id]}</p>)}
+              <>                
+                {viewConfig.map(({ id, label }) => <p key={`detail-${id}`}><b>{label} </b>: { data[id]}</p>)}
               </>
              }    
              { edit &&                            
@@ -139,16 +140,17 @@ export default function ViewEditDialog(props) {
                 }              
               </ButtonPaneLeft>
             <ButtonPaneRight>
-            </ButtonPaneRight>
               <Button 
                   autoFocus 
                   onClick={onClickSaveHandler} 
                   color="primary" 
+                  className={classes.paddingRight}
                   text="Save" />
               <Button 
                   onClick={onCloseClickHandler}
                   color="default" 
                   text="Close" />
+              </ButtonPaneRight>
             </ButtonPanel>
         </DialogActions>
         }
