@@ -3,7 +3,7 @@ export const usersTableConfig = [
       id: "id",
       numeric: false,
       disablePadding: false,
-      label: "id"
+      label: "Id"
     },
     {
       id: "username",

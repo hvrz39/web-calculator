@@ -32,6 +32,7 @@ export default function ViewEditDialog(props) {
       onSaveClick,      
       editConfig,
       canDelete,
+      onDeleteClick,
       mode=ViewEditDialogState.View,
       actions } = props;
       
@@ -121,7 +122,7 @@ export default function ViewEditDialog(props) {
                     maxWidth="sm"
                     title={'Delete USer'}
                     onClose={() => setOpenConfirm(false)}
-                    onConfirmClick={() => setOpenConfirm(false)}
+                    onConfirmClick={() => {setOpenConfirm(false); onDeleteClick(); }}
                     onCancelClick={() => setOpenConfirm(false)}
                     confirmMesage="Are you sure you want to delete it?" />     
              }

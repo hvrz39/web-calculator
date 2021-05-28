@@ -14,7 +14,8 @@ class UserService {
     create = params  =>  api().post(apiPaths.users,  params ).then(res => res.data);
 
     update = ({ id, ...params}) => api().put(apiPaths.user.replace(':id', id), params).then(res => res.data);
-    
+
+    delete = id => api().delete(apiPaths.user.replace(':id', id), {}).then(res => res.data);
 }
 
 export default UserService

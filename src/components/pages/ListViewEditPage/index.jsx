@@ -32,6 +32,7 @@ function ListViewEditPage({ page }) {
         fetchById,
         postEntity,
         updateEntity,
+        deleteEntity,
         gridConfig, 
         editFormConfig,
         viewConfig,
@@ -79,9 +80,29 @@ function ListViewEditPage({ page }) {
                 },
                 onError: async (error, newData, rollback) =>   await rollback(),
                 onSettled: async () => await queryClient.refetchQueries(queryRef.current),
-            });  
+            }); 
+
+    const { mutate: deleteUser } = 
+        useMutation(data => deleteUserCall(data), {
+            onMutate: async (deletedUserId) => {  
+                
+                await queryClient.cancelQueries(queryRef.current);                
+                const snapshot = await queryClient.getQueryData(queryRef.current);
+            
+                await queryClient
+                                .setQueryData(
+                                    queryRef.current, 
+                                    ({ count, rows }) => ({ count, rows: rows.filter(s=> s.id !== deletedUserId) })
+                                );
+        
+                return () => queryClient.setQueryData(queryRef.current, snapshot);
+            },
+            onError: async (error, newData, rollback) =>   await rollback(),
+            onSettled: async () => await queryClient.refetchQueries(queryRef.current),
+        });            
 
     const saveUserCall = async data => !data.id ? await postEntity(data) : await updateEntity(data);
+    const deleteUserCall = async id => await deleteEntity(id);
 
     useEffect(() => {            
         refetchUser();
@@ -103,6 +124,12 @@ function ListViewEditPage({ page }) {
         setSelectedId(userId);
     }
 
+    const onDeleteClickHandler = () => {
+        setOpenDialog(false);
+        console.log('deleting this user', selectedId)
+        deleteUser(selectedId);
+    }
+
     const onCloseHandler = state => {   
         setUserSelected({});
         setSelectedId(-1);
@@ -114,8 +141,7 @@ function ListViewEditPage({ page }) {
         setOpenDialog(true);
     }
 
-    const onSaveClickHandler = (data) => {
-        console.log('data', data);
+    const onSaveClickHandler = (data) => {        
         saveUser(data);
     }
     
@@ -144,10 +170,11 @@ function ListViewEditPage({ page }) {
                 editConfig={editFormConfig}
                 viewConfig={viewConfig}
                 data={selectedUser}
-                onSaveClick={onSaveClickHandler}
                 mode={dialogMode}
                 canDelete={canDelete}
+                onSaveClick={onSaveClickHandler}
                 onClose={onCloseHandler}
+                onDeleteClick={onDeleteClickHandler}
                 setOpenPopup={f=>f} />
         }       
       </Container>
