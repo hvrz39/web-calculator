@@ -5,8 +5,9 @@ import { useQuery, useMutation, useQueryClient } from 'react-query';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { getPageListEditConfig } from '../../../common/page.config';
-import { ViewEditDialogState } from '../../../common/enums';
+import { ViewEditDialogState  } from '../../../common/enums';
 import { v4 } from 'uuid';
+
 const Container = styled.div
 `
     width: 800px; 
@@ -41,7 +42,7 @@ function ListViewEditPage({ page }) {
 
     const fetchAllQueryIdentifier = `fetch-active-${page}`;
     const fetchOnQueryIdentifier = `fetch-${page}`;
-    const [openDialog, setOpenDialog] = useState(false);
+    const [openDialog, setOpenDialog] = useState(false);    
     const [selectedId, setSelectedId] = useState(-1);
     const [selectedUser, setUserSelected] = useState({});
     const [dialogMode, setDialogMode] = useState(ViewEditDialogState.View);
@@ -56,45 +57,31 @@ function ListViewEditPage({ page }) {
                     enabled: false         
                 });
 
-    const { 
-        mutate: createUser, 
-            } = useMutation(data => saveData(data), {
+    const { mutate: saveUser } = 
+            useMutation(data => saveUserCall(data), {
+                onMutate: async (newData) => {  
 
-            onMutate: async (newData) => {
-              
-                await queryClient.cancelQueries(queryRef.current);                
-                const snapshot = await queryClient.getQueryData(queryRef.current);
-               
-                const updateRows = (rows, newData) => 
-                                                    newData.id ? 
-                                                        rows.map(r => r.id === newData.id ? newData : r ) 
-                                                        : [...rows, { ...newData, id: v4() }];
-                    
+                    await queryClient.cancelQueries(queryRef.current);                
+                    const snapshot = await queryClient.getQueryData(queryRef.current);
                 
-                await queryClient
-                            .setQueryData(
-                                queryRef.current, 
-                                ({ count, rows }) => ({ count, rows: updateRows(rows, newData )})
-                            );
-          
-                return () => queryClient.setQueryData(queryRef.current, snapshot);
-              },
-              onError: async (error, newData, rollback) =>   await rollback(),
-              onSettled: async () => await queryClient.refetchQueries(queryRef.current),
-        });  
+                    const updateRows = (rows, newData) => 
+                                                        newData.id ? 
+                                                            rows.map(r => r.id === newData.id ? newData : r ) 
+                                                            : [...rows, { ...newData, id: v4() }];                    
+                    
+                    await queryClient
+                                .setQueryData(
+                                    queryRef.current, 
+                                    ({ count, rows }) => ({ count, rows: updateRows(rows, newData )})
+                                );
+            
+                    return () => queryClient.setQueryData(queryRef.current, snapshot);
+                },
+                onError: async (error, newData, rollback) =>   await rollback(),
+                onSettled: async () => await queryClient.refetchQueries(queryRef.current),
+            });  
 
-    const saveData = async data => {
-        if (!data.id) {
-            console.log('reating')
-            await postEntity(data);  
-        }
-        else {
-            console.log('updating')
-            await updateEntity(data);
-        }
-    }
-
-
+    const saveUserCall = async data => !data.id ? await postEntity(data) : await updateEntity(data);
 
     useEffect(() => {            
         refetchUser();
@@ -122,14 +109,14 @@ function ListViewEditPage({ page }) {
         setOpenDialog(state);
     }
 
-    const onAddClickHandler = () => {
+    const onAddClickHandler = () => {     
         setDialogMode(ViewEditDialogState.Create);
         setOpenDialog(true);
     }
 
     const onSaveClickHandler = (data) => {
         console.log('data', data);
-        createUser(data);
+        saveUser(data);
     }
     
     return (
@@ -157,12 +144,12 @@ function ListViewEditPage({ page }) {
                 editConfig={editFormConfig}
                 viewConfig={viewConfig}
                 data={selectedUser}
-                onSave={onSaveClickHandler}
+                onSaveClick={onSaveClickHandler}
                 mode={dialogMode}
                 canDelete={canDelete}
                 onClose={onCloseHandler}
                 setOpenPopup={f=>f} />
-        }
+        }       
       </Container>
     )
   }

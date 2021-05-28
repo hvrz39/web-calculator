@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, makeStyles, Typography } from '@material-ui/core';
-import { Button } from "../../atoms";
-import CloseIcon from '@material-ui/icons/Close';
+import { Button, Icon } from "../../atoms";
 import IconButton from '@material-ui/core/IconButton';
-import EditIcon from '@material-ui/icons/Edit';
 import PropTypes from "prop-types";
 import DynamicForm from '../DynamicForm';
-import styled from 'styled-components';
+import ConfirmDialog from '../ConfirmDialog';
+import { DialogTitleContent, ButtonPanel, ButtonPaneLeft, ButtonPaneRight } from '../'
 import { ViewEditDialogState } from '../../../common/enums';
 
 const useStyles = makeStyles(theme => ({
@@ -18,34 +17,11 @@ const useStyles = makeStyles(theme => ({
   dialogTitle: {
       paddingRight: '0px'
   }
-}))
-
-const DialogTitleContent = styled.div
-`
-  display:flex;
-`
-const ButtonPanel = styled.div
-`
-  display:flex;
-  width: 100%;
-`
-
-const ButtonPaneLeft = styled.div
-`
-  text-alight: left;
-  flex: 1;
-
-`
-const ButtonPaneRight = styled.div
-`  text-alight: right;  
-  flex: 1;
-`
+}));
 
 export default function ViewEditDialog(props) {
 
-  const { 
-      title, 
-      children, 
+  const {      
       openPopup, 
       maxWidth="md", 
       titleProperty=null,
@@ -53,12 +29,13 @@ export default function ViewEditDialog(props) {
       data,
       onClose=f=>f, 
       viewConfig,
-      onSave,      
+      onSaveClick,      
       editConfig,
       canDelete,
       mode=ViewEditDialogState.View,
       actions } = props;
-
+      
+  const [openConfirm, setOpenConfirm ] = useState(false);
   const [viewState, setViewState ] = useState(mode);
   const [ edit, setEdit ] = useState(  mode === ViewEditDialogState.Create ?? false);
   const classes = useStyles();
@@ -78,7 +55,7 @@ export default function ViewEditDialog(props) {
 
   function onClickSaveHandler() {
     onClose(false);
-    onSave(ref.current)
+    onSaveClick(ref.current)
   }
 
   function onCloseClickHandler() {
@@ -110,14 +87,14 @@ export default function ViewEditDialog(props) {
                       onClick={() => onShowEditMode(true)}
                       aria-label="delete" 
                       className={classes.margin}>
-                      <EditIcon fontSize="small" />
+                      <Icon name={'edit'} fontSize="small" />
                   </IconButton>
                   <IconButton 
                       aria-label="close" 
                       className={classes.margin} 
                       onClick={onCloseHandler}
                       size="small">
-                      <CloseIcon fontSize="inherit" />
+                      <Icon name={'close'} fontSize="inherit" />
                   </IconButton>        
                 </>
               }
@@ -137,7 +114,17 @@ export default function ViewEditDialog(props) {
                   data={data}
                   isLoading={false}
                   config={editConfig} />                          
-             }       
+             }  
+             { openConfirm && 
+                <ConfirmDialog 
+                    openPopup={true} 
+                    maxWidth="sm"
+                    title={'Delete USer'}
+                    onClose={() => setOpenConfirm(false)}
+                    onConfirmClick={() => setOpenConfirm(false)}
+                    onCancelClick={() => setOpenConfirm(false)}
+                    confirmMesage="Are you sure you want to delete it?" />     
+             }
           </DialogContent>
           { edit && <DialogActions>
             <ButtonPanel>
@@ -145,7 +132,7 @@ export default function ViewEditDialog(props) {
                 { !create && canDelete && 
                     <Button 
                       autoFocus 
-                      onClick={f=>f} 
+                      onClick={() => setOpenConfirm(true)} 
                       color="secondary" 
                       text="Delete" />
                 }              
