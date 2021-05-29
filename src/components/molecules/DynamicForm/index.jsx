@@ -39,8 +39,7 @@ const Form = props => {
     }, [fields]);
 
     function onSubmit(e) {
-        e.preventDefault();
-        console.log('state', fields);
+        e.preventDefault();       
     }    
 
     // same as Grid size
