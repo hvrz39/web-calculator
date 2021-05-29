@@ -21,20 +21,20 @@ function DataGridHead(props) {
     return (
       <TableHead>
         <TableRow>
-          {config.map(({ id, numeric, disablePadding, label}) => (
+          {config.map(({ id, numeric, disablePadding, label, overrideSoftField}) => (
             <TableCell
               key={id}
               align={numeric ? "right" : "left"}
               padding={disablePadding ? "none" : "default"}
-              sortDirection={orderBy ===id ? order : false}
+              sortDirection={orderBy === overrideSoftField ?? id ? order : false}
             >
               <TableSortLabel
-                active={orderBy === id}
-                direction={orderBy === id ? order : "asc"}
-                onClick={createSortHandler(id)}
+                active={orderBy === overrideSoftField?? id}
+                direction={orderBy === overrideSoftField ?? id ? order : "asc"}
+                onClick={createSortHandler(overrideSoftField ?? id)}
               >
                 {label}
-                {orderBy === id ? (
+                {orderBy === overrideSoftField?? id ? (
                   <span className={classes.visuallyHidden}>
                     {order === "desc" ? "sorted descending" : "sorted ascending"}
                   </span>

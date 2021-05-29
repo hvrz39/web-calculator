@@ -94,17 +94,18 @@ export const usersBalanceTableConfig = [
       label: "Id"
     },
     {
-      id: "service_id",
+      id: "Service.type",
       numeric: false,
+      overrideSoftField: 'service_id',
       disablePadding: false,
       label: "Service"
     },
     { 
-        id: "user_id", 
-        numeric: true, 
+        id: "User.username", 
+        numeric: false, 
+        overrideSoftField: 'user_id',
         disablePadding: false, 
-        label: "User" ,
-        align: "right",
+        label: "User",      
     },
     {
       id: "cost",
