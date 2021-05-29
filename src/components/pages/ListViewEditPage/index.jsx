@@ -54,7 +54,7 @@ function ListViewEditPage({ page }) {
 
     const { refetch } =  useQuery(
                 [fetchOnQueryIdentifier, selectedId], 
-                () => fetchUser(selectedId), {  
+                () => fetchById(selectedId), {  
                     refetchOnWindowFocus: false,   
                     enabled: false         
                 });
@@ -118,7 +118,7 @@ function ListViewEditPage({ page }) {
             }            
     }}
 
-    const fetchUser = async userId => await fetchById(userId);
+    // const fetchUser = async userId => await fetchById(userId);
 
     const onRowClikHandler = userId => {   
         setDialogMode(ViewEditDialogState.EditCreate);

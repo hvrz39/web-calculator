@@ -59,6 +59,7 @@ const useStyles = makeStyles((theme) => ({
     const [selected, setSelected] = useState([]);
     const [perPage, setPerPage] = useState(10);        
     queryRef.current = [dataSourceId, sort, page, perPage]
+    
     const { 
         data, 
         isLoading, 

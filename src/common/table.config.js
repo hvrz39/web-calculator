@@ -19,13 +19,19 @@ export const usersTableConfig = [
         disablePadding: false, 
         label: "Role" ,
         align: "right",
+        render(val) {
+          return val.toUpperCase();  
+        }
     },
     { 
         id: "status", 
         numeric: true, 
         disablePadding: false, 
         label: "Status",
-        align: "right"
+        align: "right",
+        render(val) {
+          return val.toUpperCase();  
+        }
     },
   ];
 
@@ -48,12 +54,16 @@ export const usersBalanceTableConfig = [
         disablePadding: false, 
         label: "Role" ,
         align: "right",
+        render(val) {
+          return val.toUpperCase();  
+        }
     },
     {
       id: "balance",
-      numeric: false,
+      numeric: true,
       disablePadding: false,
-      label: "Balance"
+      label: "Balance",
+      align: "right",
     },
   ];
 
@@ -83,6 +93,9 @@ export const usersBalanceTableConfig = [
       disablePadding: false,
       label: "Status",
       align: "right",
+        render(val) {
+          return val.toUpperCase();  
+        }
     },
   ];
 

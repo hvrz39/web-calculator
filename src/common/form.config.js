@@ -1,4 +1,6 @@
-  export const userFormConfig = {
+import { UserService,  Services,  } from '../services';
+  
+  export const userFormConfig = () => ({
     columns: [
             [
                 {                     
@@ -15,35 +17,20 @@
                     label: 'Status', 
                     required: true, 
                     placeholder: 'Status'
-                },
-                // {                    
-                //     field: 'password', 
-                //     type: 'password',                     
-                //     label: 'Password', 
-                //     required: true, 
-                //     placeholder: 'Password'
-                // },
-              //   {                    
-              //     field: 'role', 
-              //     type: 'select', 
-              //     options: [{ value: 'admin', label: 'Admin'}, { value: 'user', label: 'User'}],
-              //     label: 'Role', 
-              //     required: true, 
-              //     placeholder: 'Role'
-              // },
-              {                    
+                },              
+                {                    
                   field: 'role', 
                   type: 'radio', 
                   options: [{ value: 'admin', label: 'Admin'}, { value: 'user', label: 'User'}],
                   label: 'Role ', 
                   required: true, 
                   placeholder: 'Admin'
-              }, 
+                }, 
             ],
     ]
-}
+})
 
-export const userBalanceFormConfig = {
+export const userBalanceFormConfig = () => ({
   columns: [
           [
               {                     
@@ -55,9 +42,9 @@ export const userBalanceFormConfig = {
               },               
           ],          
   ]
-}
+})
 
-export const serviceFormConfig = {
+export const serviceFormConfig = () => ({
   columns: [
           [
               {                    
@@ -112,12 +99,15 @@ export const serviceFormConfig = {
             },              
           ],
   ]
-}
+})
 
 
-export const recordFormConfig = {
-  columns: [
-          [
+export const recordFormConfig = () => {
+  const { getAll: getAllUsers } = new UserService();  
+  const { getAll: getAllServices } = new Services();
+  return {
+    columns: [
+            [
               {                     
                   field: 'cost', 
                   type: 'number', 
@@ -131,7 +121,30 @@ export const recordFormConfig = {
                 label: 'User Balance', 
                 required: true, 
                 placeholder: 'User Balance'
-            },               
-          ],          
-  ]
+              }, 
+              {                     
+                field: 'user_id', 
+                type: 'select', 
+                label: 'User', 
+                required: true, 
+                placeholder: 'User',
+                dataSourceId:`fetch--all-users`,
+                fetchDataSource: getAllUsers,
+                dataField: 'id',
+                dataText: 'username'
+              },   
+              {                     
+                field: 'service_id', 
+                type: 'select', 
+                label: 'Service', 
+                required: true, 
+                placeholder: 'Service',
+                dataSourceId:`fetch--all-services`,
+                fetchDataSource: getAllServices,
+                dataField: 'id',
+                dataText: 'type'
+              },               
+            ],          
+    ]
+  }
 }
