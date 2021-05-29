@@ -28,7 +28,7 @@ const NavBar = props => {
     return (
         <NavContainer>
             <nav style={{ height: '60px', background: 'black', padding: '10px',  width: '100%' }}>
-                 Logged as { role }
+                 Logged as { username }
                 <NavLink to='/users' onClick={() => history.push('/users')} >User Management </NavLink> | 
                 <NavLink to="/balance" onClick={() => history.push('/balance')} >User Balance </NavLink> |
                 <NavLink to="/services" onClick={() => history.push('/services')} >Services </NavLink> |

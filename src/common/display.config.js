@@ -69,9 +69,14 @@ export const usersDisplayConfig = [
       label: "Id"
     },
     {
-      id: "service_id",      
+      id: "Service.type",      
       type: 'text', 
-      label: "Service "
+      label: "Service"
+    },
+    {
+      id: "User.username",      
+      type: 'text', 
+      label: "Username"
     },
     {
       id: "cost",      
