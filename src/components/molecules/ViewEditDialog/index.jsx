@@ -118,7 +118,7 @@ export default function ViewEditDialog(props) {
                 <ConfirmDialog 
                     openPopup={true} 
                     maxWidth="sm"
-                    title={'Delete USer'}
+                    title={`Confirm`}
                     onClose={() => setOpenConfirm(false)}
                     onConfirmClick={() => {setOpenConfirm(false); onDeleteClick(); }}
                     onCancelClick={() => setOpenConfirm(false)}

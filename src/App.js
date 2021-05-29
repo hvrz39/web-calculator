@@ -51,6 +51,9 @@ const ProtectedPage = prop => {
               </Route>     
               <Route exact path='/services'  >
                 <ListViewEditPage page={Pages.services} />
+              </Route>  
+              <Route exact path='/records'  >
+                <ListViewEditPage page={Pages.records} />
               </Route>          
               <Route exact path='/' >
                 <UserPage2 />

@@ -1,7 +1,7 @@
-import { UserService, UserBalanceService, Services } from '../services';
-import { usersBalanceTableConfig, usersTableConfig, servicesTableConfig } from './table.config';
-import { userBalanceFormConfig, userFormConfig, serviceFormConfig } from './form.config';
-import {  userBalanceDisplayConfig, usersDisplayConfig, serviceDisplayConfig } from './display.config';
+import { UserService, UserBalanceService, Services, Records } from '../services';
+import { usersBalanceTableConfig, usersTableConfig, servicesTableConfig, recordsTableConfig } from './table.config';
+import { userBalanceFormConfig, userFormConfig, serviceFormConfig, recordFormConfig } from './form.config';
+import {  userBalanceDisplayConfig, usersDisplayConfig, serviceDisplayConfig, recordDisplayConfig } from './display.config';
 
 export const Pages = {
     users: 'users',
@@ -79,6 +79,27 @@ export const getPageListEditConfig = page => {
                 defaultSortOrder: 'asc',
                 mainTitle: `Services Management`,   
                 canAdd: true,
+                canDelete: true             
+            }
+        }
+
+        case Pages.records: {
+
+            const { getAll, create, getById, update, remove  } = new Records();
+
+            return {
+                fetchAll: getAll,
+                fetchById: getById,
+                postEntity: create, 
+                updateEntity: update, 
+                deleteEntity: remove, 
+                gridConfig: recordsTableConfig, 
+                editFormConfig: recordFormConfig,
+                viewConfig: recordDisplayConfig,
+                defaultSortColumn: 'service_id',
+                defaultSortOrder: 'asc',
+                mainTitle: `Records Management`,   
+                canAdd: false,
                 canDelete: true             
             }
         }

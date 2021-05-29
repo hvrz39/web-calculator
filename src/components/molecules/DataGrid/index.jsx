@@ -180,13 +180,13 @@ const useStyles = makeStyles((theme) => ({
                                         selected={isItemSelected}
                                     >
                                         { config.map(
-                                            ({ id, align }) => (
+                                            ({ id, align, render }) => (
                                                 <TableCell
                                                     key={id}
                                                     component="th"                                                
                                                     align={align ?? 'inherit'}
                                             >
-                                                {row[id]}
+                                                {render ? render(row[id]) : row[id]}
                                             </TableCell>
                                             ))}                                       
                                     </TableRow>

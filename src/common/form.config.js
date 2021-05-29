@@ -76,16 +76,17 @@ export const serviceFormConfig = {
                     }, { 
                       value: 'division', 
                       label: 'Division'
-                  }, {
+                    }, {
                       value: 'square_root', 
                       label: 'Square Root'
-                  }, {
-                    value: 'free_form', 
-                    label: 'Free Form'
-                  }, {
-                    value: 'random_string', 
-                    label: 'Random String'
-                  }],
+                    }, {
+                      value: 'free_form', 
+                      label: 'Free Form'
+                    }, {
+                      value: 'random_string', 
+                      label: 'Random String'
+                    }
+                  ],
                   label: 'Type', 
                   required: true, 
                   placeholder: 'Type'
@@ -110,5 +111,27 @@ export const serviceFormConfig = {
                 placeholder: 'Type'
             },              
           ],
+  ]
+}
+
+
+export const recordFormConfig = {
+  columns: [
+          [
+              {                     
+                  field: 'cost', 
+                  type: 'number', 
+                  label: 'Cost', 
+                  required: true, 
+                  placeholder: 'Cost'
+              },   
+              {                     
+                field: 'user_balance', 
+                type: 'number', 
+                label: 'User Balance', 
+                required: true, 
+                placeholder: 'User Balance'
+            },               
+          ],          
   ]
 }

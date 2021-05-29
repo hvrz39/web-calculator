@@ -60,3 +60,27 @@ export const usersDisplayConfig = [
       label: "status"
     }
   ];
+
+
+  export const recordDisplayConfig = [
+    {
+      id: "id",
+      type: 'label', 
+      label: "Id"
+    },
+    {
+      id: "service_id",      
+      type: 'text', 
+      label: "Service "
+    },
+    {
+      id: "cost",      
+      type: 'text', 
+      label: "Cost"
+    },
+    {
+      id: "user_balance",      
+      type: 'text', 
+      label: "User Balance"
+    }
+  ];

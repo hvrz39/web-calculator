@@ -20,4 +20,6 @@ export const apiPaths = {
     userbalance: `/userbalances/:id`,
     services: `/services`,
     service: `/services/:id`,
+    records: `/records`,
+    record: `/records/:id`,
 };
