@@ -7,7 +7,8 @@ export const api = () =>
         contentType: "application/json",
         headers: {
             // Authorization: `Bearer ${window.localStorage.access_token ? window.localStorage.access_token : ''}`
-            Authorization: `${window.localStorage.access_token ? window.localStorage.access_token : ''}`
+            Authorization: `${window.localStorage.access_token ? window.localStorage.access_token : ''}`,
+            'x-access-token': `${window.localStorage.access_token ? window.localStorage.access_token : ''}`
         },
     });
 
@@ -22,4 +23,6 @@ export const apiPaths = {
     service: `/services/:id`,
     records: `/records`,
     record: `/records/:id`,
+    myrecords: `/myrecords`,
+    myrecord: `/myrecords/:id`,
 };
