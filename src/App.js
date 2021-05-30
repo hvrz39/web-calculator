@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
+import { Route, Switch, BrowserRouter as Router, Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import './App.css';
 import { LoginForm, NavBar } from './components/molecules';
@@ -17,75 +17,50 @@ const WrapperContainer = styled.div
 const MainContent = styled.div
 `
     background: #ddd; 
-    margin: auto,
-    min-width: 500px
-    
+    margin: auto;
+    min-width: 950px;
+    width: 950px; 
 `;
 
-const ProtectedPage = prop => {
+const RouteGuard  = ({ Component, ...props }) => {
 
   const { userlogin: {isAuthenticated} } = useSelector(state=>state);  
 
-  if(!isAuthenticated) {
-    return (
-      <Router>
-        <Switch>
-            <Route  exact path="/login" component={LoginForm} />           
-        </Switch>  
-      </Router>
-    );
-  }
+  // check roles
+  console.log('here')
+  if (!isAuthenticated) {    
+      return <Redirect to="/login" />;
+  } 
+  // check roles before rendering
 
   return (
-    <WrapperContainer>
-     
-        <NavBar />
-        <MainContent  >
-          <Router>
-            <Switch>
-              <Route exact path='/balance'  >
-                <ListViewEditPage page={Pages.balances} />
-              </Route>
-              <Route exact  path='/users' >
-                <ListViewEditPage page={Pages.users} />
-              </Route>     
-              <Route exact path='/services'  >
-                <ListViewEditPage page={Pages.services} />
-              </Route>  
-              <Route exact path='/records'  >
-                <ListViewEditPage page={Pages.records} />
-              </Route>    
-              <Route exact path='/myrecords'  >
-                  <ListViewEditPage page={Pages.myrecords} />
-              </Route>          
-              <Route exact path='/' >
-                <UserPage2 />
-              </Route> 
-            </Switch>
-          </Router>
-        </MainContent>
-    </WrapperContainer>
-  )
-}
+      <Route
+          {...props}
+          component={routeProps => <Component {...routeProps} />}
+      />
+  );
+};
 
-
-
-function UserPage2() {
-  return (
-    <div>
-      User page2
-    </div>
-  )
-}
 
 function App() {
-    return (        
-      <Router>
-        <Switch>
-            <Route  path="/" component={ProtectedPage} /> 
-            <Route  path="/login" component={LoginForm} /> 
-        </Switch>  
-      </Router>
+  const { userlogin: {isAuthenticated} } = useSelector(state=>state); 
+    return (  
+      <WrapperContainer>
+        <MainContent>
+        <Router>
+          {isAuthenticated && <NavBar /> }
+          <Switch>
+              <Route  exact path="/login" component={LoginForm} />
+              <RouteGuard path='/users' Component={() => <ListViewEditPage  page={Pages.users} />} />
+              <RouteGuard path='/balance' Component={() => <ListViewEditPage  page={Pages.balances} />} />
+              <RouteGuard path='/services' Component={() => <ListViewEditPage  page={Pages.services} />} />
+              <RouteGuard path='/records' Component={() => <ListViewEditPage  page={Pages.records} />} />
+              <RouteGuard path='/myrecords' Component={() => <ListViewEditPage  page={Pages.myrecords} />} />
+              <RouteGuard path='/' Component={() => <ListViewEditPage  page={Pages.users} />} />
+          </Switch>  
+        </Router>
+        </MainContent>
+      </WrapperContainer>      
     );  
 }
 

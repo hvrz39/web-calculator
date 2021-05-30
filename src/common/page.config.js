@@ -106,7 +106,7 @@ export const getPageListEditConfig = page => {
 
         case Pages.myrecords: {
 
-            const { getAll, create, getById, update, remove  } = new MyRecord();
+            const { getAll, } = new MyRecord();
 
             return {
                 fetchAll: getAll,

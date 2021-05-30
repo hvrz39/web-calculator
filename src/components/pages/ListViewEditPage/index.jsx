@@ -10,7 +10,7 @@ import { v4 } from 'uuid';
 
 const Container = styled.div
 `
-    width: 800px; 
+    width: 950px; 
     margin: auto;
     padding: 10px 0px;   
 `;
@@ -148,7 +148,7 @@ function ListViewEditPage({ page }) {
     
     return (
       <Container>   
-        <Title><h1>{mainTitle}</h1></Title>   
+        <Title><h2>{mainTitle}</h2></Title>   
         { canAdd && 
             <ButtonPanel>
                 <Button text="Add" onClick={onAddClickHandler} />

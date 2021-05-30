@@ -8,9 +8,16 @@ import { userLogout } from '../../../redux/actions/userlogin.action';
 const NavContainer = styled.div
 `
     width: 100%;     
-    display: flex;
-    overflow-y: auto; 
-    color: white;
+    display: flex;   
+    color: white;   
+    background: #3979A7;   
+`;
+
+const NavLinkOption = styled.div
+`
+    margin-top: 10px;
+    padding: 1.5em .1em;
+    display: inline;
 `;
 
 const NavBar = props => {
@@ -27,15 +34,17 @@ const NavBar = props => {
 
     return (
         <NavContainer>
-            <nav style={{ height: '60px', background: 'black', padding: '10px',  width: '100%' }}>
-                 Logged as { username }
-                <NavLink to='/users' onClick={() => history.push('/users')} >User Management </NavLink> | 
-                <NavLink to="/balance" onClick={() => history.push('/balance')} >User Balance </NavLink> |
-                <NavLink to="/services" onClick={() => history.push('/services')} >Services </NavLink> |
-                <NavLink to="/records" onClick={() => history.push('/services')} >Records </NavLink> |
-                <NavLink to="/myrecords" onClick={() => history.push('/services')} >My Records </NavLink> |
-                <NavLink to='/' >user 2</NavLink> |
-                <a onClick={onClickHandler}>Logout</a>
+            <nav>
+                 {/* Logged as { username } */}
+                 <NavLinkOption>
+                    <NavLink to='/users' onClick={() => history.push('/users')} >Users </NavLink>  
+                 </NavLinkOption>
+                 <NavLinkOption>
+                    <NavLink to="/balance" onClick={() => history.push('/balance')} >Balances </NavLink> 
+                 </NavLinkOption>
+                <NavLink  to="/services" onClick={() => history.push('/services')} >Services </NavLink> 
+                <NavLink to="/records" onClick={() => history.push('/services')} >Records </NavLink> 
+                <NavLink to="/myrecords" onClick={() => history.push('/services')} >My Records </NavLink>                 <a onClick={onClickHandler}>Logout</a>
             </nav>          
         </NavContainer>
     )
