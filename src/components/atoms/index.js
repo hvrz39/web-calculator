@@ -5,6 +5,7 @@ import Checkbox from './Checkbox';
 import Select from './Select';
 import RadioGroup from './RadioGroup'
 import Icon from './Icon';
+import TabPanel from './TabPanel'
 
 export {
     TextField,
@@ -13,5 +14,6 @@ export {
     Checkbox,
     Select,
     RadioGroup,
-    Icon
+    Icon,
+    TabPanel
 }

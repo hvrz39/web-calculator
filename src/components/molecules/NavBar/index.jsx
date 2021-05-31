@@ -23,7 +23,7 @@ const NavLinkOption = styled.div
 const NavBar = props => {
     const dispatch = useDispatch();
     const history = useHistory();
-    const { userlogin: { username, role} } = useSelector(s => s);
+    const { menuSettings, username } = useSelector(state => state.userlogin);
 
     function onClickHandler(e) {
         window.localStorage.access_token = ''
@@ -35,16 +35,14 @@ const NavBar = props => {
     return (
         <NavContainer>
             <nav>
-                 {/* Logged as { username } */}
-                 <NavLinkOption>
-                    <NavLink to='/users' onClick={() => history.push('/users')} >Users </NavLink>  
-                 </NavLinkOption>
-                 <NavLinkOption>
-                    <NavLink to="/balance" onClick={() => history.push('/balance')} >Balances </NavLink> 
-                 </NavLinkOption>
-                <NavLink  to="/services" onClick={() => history.push('/services')} >Services </NavLink> 
-                <NavLink to="/records" onClick={() => history.push('/services')} >Records </NavLink> 
-                <NavLink to="/myrecords" onClick={() => history.push('/services')} >My Records </NavLink>                 <a onClick={onClickHandler}>Logout</a>
+                 Logged as { username }
+                 { menuSettings.map(({ menu, name }) => 
+                    (
+                        <NavLinkOption>
+                            <NavLink to={`/${menu}`} >{name} </NavLink>  
+                        </NavLinkOption>)
+                 )}
+                 <a onClick={onClickHandler}>Logout</a>
             </nav>          
         </NavContainer>
     )

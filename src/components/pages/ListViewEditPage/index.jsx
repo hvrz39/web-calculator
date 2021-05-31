@@ -7,23 +7,8 @@ import styled from 'styled-components';
 import { getPageListEditConfig } from '../../../common/page.config';
 import { ViewEditDialogState  } from '../../../common/enums';
 import { v4 } from 'uuid';
+import { Title, Container, Content, ButtonPanel} from '../page.components';
 
-const Container = styled.div
-`
-    width: 950px; 
-    margin: auto;
-    padding: 10px 0px;   
-`;
-
-const Title = styled.div `
-    text-transform: uppercase;
-    padding-bottom: 2em;
-`;
-
-const ButtonPanel = styled.div `    
-    padding-bottom: 2em;
-    text-align: right
-`;
 
 function ListViewEditPage({ page }) {
     
@@ -154,31 +139,33 @@ function ListViewEditPage({ page }) {
                 <Button text="Add" onClick={onAddClickHandler} />
             </ButtonPanel> 
         }        
-        <DataGrid               
-            config={gridConfig}                                   
-            dataSourceId={fetchAllQueryIdentifier}
-            dataSource={fetchAll}
-            defaultSortColumn={defaultSortColumn}   
-            defaultSortOrder={defaultSortOrder}
-            onRowClick={onRowClikHandler}   
-            queryRef={queryRef}        
-        />           
-        {openDialog && 
-            <ViewEditDialog 
-                title={``}
-                maxWidth="sm"
-                titleProperty={'username'}
-                openPopup={openDialog}
-                editConfig={editFormConfig}
-                viewConfig={viewConfig}
-                data={selectedUser}
-                mode={dialogMode}
-                canDelete={canDelete}
-                onSaveClick={onSaveClickHandler}
-                onClose={onCloseHandler}
-                onDeleteClick={onDeleteClickHandler}
-                setOpenPopup={f=>f} />
-        }       
+        <Content>        
+            <DataGrid               
+                config={gridConfig}                                   
+                dataSourceId={fetchAllQueryIdentifier}
+                dataSource={fetchAll}
+                defaultSortColumn={defaultSortColumn}   
+                defaultSortOrder={defaultSortOrder}
+                onRowClick={onRowClikHandler}   
+                queryRef={queryRef}        
+            />           
+            {openDialog && 
+                <ViewEditDialog 
+                    title={``}
+                    maxWidth="sm"
+                    titleProperty={'username'}
+                    openPopup={openDialog}
+                    editConfig={editFormConfig}
+                    viewConfig={viewConfig}
+                    data={selectedUser}
+                    mode={dialogMode}
+                    canDelete={canDelete}
+                    onSaveClick={onSaveClickHandler}
+                    onClose={onCloseHandler}
+                    onDeleteClick={onDeleteClickHandler}
+                    setOpenPopup={f=>f} />
+            }       
+        </Content>
       </Container>
     )
   }

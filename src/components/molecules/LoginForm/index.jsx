@@ -43,7 +43,7 @@ const AlertWrapper = styled.div
 const LoginForm = props => {   
     
     const authService = new AuthService();    
-    const [fields, setFields]  = useFormFields({ username: 'rzhoraciov@gmail.com', password: 'admin'});
+    const [fields, setFields]  = useFormFields({ username: 'user1@tester.com', password: 'user1'});
     
     const signIn = async credentials => await authService.signin(credentials);  
     const { mutate: createToken, data, isError, isLoading, isSuccess, error } = useMutation(credentials => signIn(credentials));    
@@ -60,20 +60,23 @@ const LoginForm = props => {
         dispatch(userloginActions.userLoginLoad())
     }
    
-    function redirectToUsers() {
-        history.push("/users");
+    function redirect(role) {
+        role === 'admin' ?
+            history.push("/users") :
+            history.push("/myrecords");
     }
 
-    // if(userlogin.isAuthenticated) {
-    //     redirectToUsers();
-    // }
+    if(userlogin.isAuthenticated) {
+        redirect(userlogin.role);
+    }
 
     if(isSuccess && !userlogin.isAuthenticated) {     
 
         window.localStorage.access_token = data.access_token;
         window.localStorage.expiresIn = data.expiresIn;  
-       dispatch(userloginActions.userLoginSuccess(data));
-       redirectToUsers();
+        dispatch(userloginActions.userLoginSuccess(data));
+        const { role } = data;
+        redirect(role);
     }    
 
     const signinLabel = isLoading ? 'Logining...' : 'Login';

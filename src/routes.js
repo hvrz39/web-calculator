@@ -1,18 +1,26 @@
 export default Routes = {
     homePage: {
-        route: '/',
+        path: '/',
         roles: ['admin']
     },
     balances: {
-        route: '/balances',
+        path: '/balances',
+        name: 'Balances',
         roles: ['admin']
     },
     services: {
-        route: '/balances',
+        path: '/balances',
+        name: 'Services',
         roles: ['admin']
     },
     myrecords: {
-        route: '/myrecords',
+        path: '/myrecords',
+        name: 'My Records',
+        roles: ['user']
+    },
+    profile: {
+        path: '/profile',
+        name: 'Name',
         roles: ['user']
     }
 };

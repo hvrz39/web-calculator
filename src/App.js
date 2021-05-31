@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import './App.css';
 import { LoginForm, NavBar } from './components/molecules';
 import { Pages } from './common/page.config';
-import { ListViewEditPage } from './components/pages';
+import { ListViewEditPage, NerService } from './components/pages';
 
 import styled from 'styled-components';
 
@@ -41,7 +41,6 @@ const RouteGuard  = ({ Component, ...props }) => {
   );
 };
 
-
 function App() {
   const { userlogin: {isAuthenticated} } = useSelector(state=>state); 
     return (  
@@ -52,10 +51,12 @@ function App() {
           <Switch>
               <Route  exact path="/login" component={LoginForm} />
               <RouteGuard path='/users' Component={() => <ListViewEditPage  page={Pages.users} />} />
-              <RouteGuard path='/balance' Component={() => <ListViewEditPage  page={Pages.balances} />} />
+              <RouteGuard path='/balances' Component={() => <ListViewEditPage  page={Pages.balances} />} />
               <RouteGuard path='/services' Component={() => <ListViewEditPage  page={Pages.services} />} />
               <RouteGuard path='/records' Component={() => <ListViewEditPage  page={Pages.records} />} />
               <RouteGuard path='/myrecords' Component={() => <ListViewEditPage  page={Pages.myrecords} />} />
+              <RouteGuard path='/newservice' Component={props => <NerService {...props} />} />
+              <RouteGuard path='/profile' Component={() => <p>profile page</p>} />
               <RouteGuard path='/' Component={() => <ListViewEditPage  page={Pages.users} />} />
           </Switch>  
         </Router>

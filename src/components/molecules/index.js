@@ -6,6 +6,7 @@ import DataGrid from './DataGrid';
 import ViewEditDialog from './ViewEditDialog';
 import DynamicForm from './DynamicForm';
 import ConfirmDialog from './ConfirmDialog';
+import Addition from './Addition';
 
 export const DialogTitleContent = styled.div
 `
@@ -36,5 +37,6 @@ export {
     DataGrid,
     ViewEditDialog,
     DynamicForm,
-    ConfirmDialog
+    ConfirmDialog,
+    Addition
 }
