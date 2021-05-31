@@ -6,6 +6,7 @@ import Select from './Select';
 import RadioGroup from './RadioGroup'
 import Icon from './Icon';
 import TabPanel from './TabPanel'
+import Tab from './Tab'
 
 export {
     TextField,
@@ -15,5 +16,6 @@ export {
     Select,
     RadioGroup,
     Icon,
-    TabPanel
+    TabPanel,
+    Tab
 }

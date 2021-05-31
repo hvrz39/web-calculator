@@ -27,7 +27,7 @@ const RouteGuard  = ({ Component, ...props }) => {
   const { userlogin: {isAuthenticated} } = useSelector(state=>state);  
 
   // check roles
-  console.log('here')
+  console.log('CHECK ROLES HERE')
   if (!isAuthenticated) {    
       return <Redirect to="/login" />;
   } 

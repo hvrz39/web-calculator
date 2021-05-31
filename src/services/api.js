@@ -25,4 +25,5 @@ export const apiPaths = {
     record: `/records/:id`,
     myrecords: `/myrecords`,
     myrecord: `/myrecords/:id`,
+    operations: `/operations`,
 };

@@ -55,7 +55,7 @@ export const serviceFormConfig = () => ({
                      value: 'addition', 
                      label: 'Addition'
                     }, { 
-                       value: 'subtraction', 
+                       value: 'substraction', 
                        label: 'Subtraction'
                     }, { 
                       value: 'multiplication', 

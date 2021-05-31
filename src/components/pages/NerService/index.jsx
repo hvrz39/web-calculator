@@ -1,8 +1,11 @@
 import React from 'react';
+
 import { Title, Container, Content} from '../page.components';
-import { Operations } from '../../organisms'
+import { Operations } from '../../organisms';
+
 
 const NewService = props => {
+
 
     return (
         <Container>

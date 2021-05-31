@@ -1,20 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useMutation } from 'react-query';
 import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
+import { TabPanel, Alert  } from '../../atoms';
+import { Addition } from '../../molecules';
+import { OperationService, getError  } from '../../../services';
 import Tab from '@material-ui/core/Tab';
 
-import { TabPanel } from '../../atoms';
-import { Addition } from '../../molecules'
-
-function a11yProps(index) {
-    return {
-      id: `vertical-tab-${index}`,
-      'aria-controls': `vertical-tabpanel-${index}`,
-    };
-  }
-  
   const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
@@ -27,14 +20,61 @@ function a11yProps(index) {
     },
   }));
   
+  function a11yProps(index) {
+    return {
+      id: `vertical-tab-${index}`,
+      'aria-controls': `vertical-tabpanel-${index}`,
+    };
+  }
+
   export default function Operations() {
+
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
+
+    const operationService = new OperationService();
+    const requestService = async data => await operationService.requestService(data); 
+
+    const { 
+      mutate, 
+      data, 
+      isError, 
+      isLoading, 
+      isSuccess, 
+      reset,
+      error } = useMutation(data => requestService(data));    
+
+    const [apiError, setApiError] = useState('');  
   
+    function onRequestService({ serviceType, elements}) {      
+      mutate({ serviceType, elements })     
+    }
+
+    useEffect(() => {      
+      if(isError) {        
+        setApiError(getError(error));       
+      }      
+    }, [isError, error]);
+
     const handleChange = (event, newValue) => {
       setValue(newValue);
     };
+
+    function getOperationComponent(type) {
+      return (
+        <Addition 
+          serviceType={type} 
+          isError={isError}
+          isSuccess={showInfoAlert}
+          result={data}
+          error={apiError}
+          requestService={onRequestService} />
+      )
+    }
   
+    console.log({ isLoading, isSuccess, data, apiError })
+    const showInfoAlert = !isLoading && isSuccess;
+
     return (
       <div className={classes.root}>
         <Tabs
@@ -46,31 +86,31 @@ function a11yProps(index) {
           aria-label="Vertical tabs example"
           className={classes.tabs}
         >
-          <Tab label="Addition" {...a11yProps(0)} />
-          <Tab label="Substraction" {...a11yProps(1)} />
-          <Tab label="Multiplication" {...a11yProps(2)} />
-          <Tab label="Division" {...a11yProps(3)} />
-          <Tab label="Square root" {...a11yProps(4)} />
-          <Tab label="Free form" {...a11yProps(5)} />
-          <Tab label="Random string" {...a11yProps(6)} />
+          <Tab label="Addition"{...a11yProps(0)} onClick={() => reset()} />
+          <Tab label="Substraction" {...a11yProps(0)} onClick={() => reset()} />
+          <Tab label="Multiplication" {...a11yProps(0)} onClick={() => reset()} />
+          <Tab label="Division" {...a11yProps(0)} onClick={() => reset()} />
+          <Tab label="Square root" {...a11yProps(0)} onClick={() => reset()} />
+          <Tab label="Free form"{...a11yProps(0)} onClick={() => reset()} />
+          <Tab label="Random string" {...a11yProps(0)} onClick={() => reset()} />
         </Tabs>
         <TabPanel value={value} index={0}>
-           <Addition serviceType="addition" requestService={(type, elements)=> console.log({ type, elements })}/>
+           { getOperationComponent("addition") }
         </TabPanel>
         <TabPanel value={value} index={1}>
-            <Addition serviceType="substraction" requestService={(type, elements)=> console.log({ type, elements })}/>
+          { getOperationComponent("substraction") }
         </TabPanel>
         <TabPanel value={value} index={2}>
-            <Addition serviceType="multiplication" requestService={(type, elements)=> console.log({ type, elements })}/>
+          { getOperationComponent("multiplication") }          
         </TabPanel>
         <TabPanel value={value} index={3}>
-            Division component
+          { getOperationComponent("division") }       
         </TabPanel>
         <TabPanel value={value} index={4}>
-            Square root component
+          { getOperationComponent("square_root") }   
         </TabPanel>
         <TabPanel value={value} index={5}>
-            Free form component
+        { getOperationComponent("free_form") }   
         </TabPanel>
         <TabPanel value={value} index={6}>
             Random string component
