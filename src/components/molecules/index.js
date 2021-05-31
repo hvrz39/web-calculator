@@ -6,7 +6,7 @@ import DataGrid from './DataGrid';
 import ViewEditDialog from './ViewEditDialog';
 import DynamicForm from './DynamicForm';
 import ConfirmDialog from './ConfirmDialog';
-import Addition from './Addition';
+import ArithmeticOperation from './ArithmeticOperation';
 
 export const DialogTitleContent = styled.div
 `
@@ -38,5 +38,5 @@ export {
     ViewEditDialog,
     DynamicForm,
     ConfirmDialog,
-    Addition
+    ArithmeticOperation
 }

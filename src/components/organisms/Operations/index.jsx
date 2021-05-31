@@ -4,7 +4,7 @@ import { useMutation } from 'react-query';
 import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import { TabPanel, Alert  } from '../../atoms';
-import { Addition } from '../../molecules';
+import { ArithmeticOperation } from '../../molecules';
 import { OperationService, getError  } from '../../../services';
 import Tab from '@material-ui/core/Tab';
 
@@ -62,7 +62,7 @@ import Tab from '@material-ui/core/Tab';
 
     function getOperationComponent(type) {
       return (
-        <Addition 
+        <ArithmeticOperation 
           serviceType={type} 
           isError={isError}
           isSuccess={showInfoAlert}

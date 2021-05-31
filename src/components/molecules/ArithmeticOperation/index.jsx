@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { TextField, Button, Alert } from '../../atoms';
-import { v4 } from 'uuid';
 import useFormFields from '../../../hooks/userFormFields';
 
 
-const Addition = props => {
+const ArithmeticOperation  = props => {
     
     const { requestService, serviceType, isError, error, isSuccess, isLoading, result } = props;
     const notSquareRoot = serviceType !== 'square_root' && serviceType !== 'free_form';
@@ -34,11 +33,22 @@ const Addition = props => {
        }
     }, [elementCounter]);
 
-    function request() {
-     
+    function request() {     
         setFields(defaultElements());
         requestService({serviceType, elements: Object.keys(fields).map((k) => fields[k]) })
     }   
+    function removeElement(field){
+        const newFields = Object.keys(fields).reduce((object, key) => {
+            if (key !== field) {
+              object[key] = fields[key]
+            }
+            return object
+          }, {})
+
+        setFields(newFields)
+        setElementCounter(prev => prev -1)
+    }
+    const disableRemoveButtons = elementCounter== 2;
     return (
         <div style={{ padding: '0px 35px',}}>
             { isError && <Alert severity={'error'}  text={error} /> }
@@ -56,11 +66,14 @@ const Addition = props => {
                         id={ele} 
                         name={ele} 
                         onChange={handleFieldChange} />
-                    { notSquareRoot &&  <Button text="x" onClick={f=>f} /> }
+                    { notSquareRoot &&  
+                        <Button text="x" 
+                            onClick={() => removeElement(ele)} 
+                            disabled={disableRemoveButtons} /> }
                 </div>)
             }
         </div>
     )
 }
 
-export default Addition;
+export default ArithmeticOperation;
