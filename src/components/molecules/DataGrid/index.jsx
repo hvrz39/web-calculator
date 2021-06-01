@@ -1,6 +1,6 @@
 import React, { useState, useEffect }  from 'react';
 import PropTypes from "prop-types";
-import { useQuery, useQueryClient } from 'react-query';
+import { useQuery } from 'react-query';
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -10,8 +10,8 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from '@material-ui/core/styles';
 import DataGridHead from '../DataGridHead';
-// import projectConfig from '../../../project.json';
-
+import { Alert } from '../../atoms';
+import { getError } from '../../../services/error.service'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -34,6 +34,9 @@ const useStyles = makeStyles((theme) => ({
       position: "absolute",
       top: 20,
       width: 1
+    },
+    searchBox: {
+        padding: '10px 0px'
     }
   }));
 
@@ -49,11 +52,13 @@ const useStyles = makeStyles((theme) => ({
         defaultSortOrder,
         queryRef,
         onRowClick=f=>f,
+        actions=null,
         dataSource } = props;    
        
     const classes = useStyles();
     const [page, setPage] = useState(1);
     const [sort, sertSort] = useState(`${defaultSortColumn} ${defaultSortOrder}`);
+    const [searchCriteria, setSearchCriteria] = useState('');
     const [order, setOrder] = useState(defaultSortOrder);
     const [orderBy, setOrderBy] = useState(defaultSortColumn);
     const [selected, setSelected] = useState([]);
@@ -64,23 +69,25 @@ const useStyles = makeStyles((theme) => ({
         data, 
         isLoading, 
         isFetching, 
+        isSuccess,
         isError, 
         refetch,
         error } = useQuery(
-            [dataSourceId, sort, page, perPage], 
-            () => fetchDataSource(sort, page, perPage), 
+            [dataSourceId, sort, page, perPage, searchCriteria], 
+            () => fetchDataSource(sort, page, perPage, searchCriteria), 
             { staleTime: 2000, refetchOnWindowFocus: true  }
         );
 
     useEffect(() => {
-        queryRef.current = [dataSourceId, sort, page, perPage]
-    }, [sort, page, perPage]);
+        queryRef.current = [dataSourceId, sort, page, perPage, searchCriteria]
+    }, [sort, page, perPage, searchCriteria]);
 
-    const fetchDataSource = async (sort, offset, limit) => {      
+    const fetchDataSource = async (sort, offset, limit, search) => {             
         const params = {
             sort,
             offset: offset-1,
-            limit 
+            limit,
+            search 
         }
         return await dataSource(params);
     }   
@@ -91,53 +98,37 @@ const useStyles = makeStyles((theme) => ({
         sertSort(`${orderBy} ${order}`); 
     };
 
-    const handleSelectAllClick = (event) => {
-        // if (event.target.checked) {
-        //     const newSelecteds = rows.map((n) => n.name);
-        //     setSelected(newSelecteds);
-        //     return;
-        // }
-        // setSelected([]);
-    };
+    const handleSelectAllClick = event => {};
     
-    const handleClick = (event, name) => {
-        //alert(name)
+    const handleClick = (event, name) => {       
         const selectedIndex = selected.indexOf(name);
         let newSelected = [];
-
-        // if (selectedIndex === -1) {
-        //     newSelected = newSelected.concat(selected, name);
-        // } else if (selectedIndex === 0) {
-        //     newSelected = newSelected.concat(selected.slice(1));
-        // } else if (selectedIndex === selected.length - 1) {
-        //     newSelected = newSelected.concat(selected.slice(0, -1));
-        // } else if (selectedIndex > 0) {
-        //     newSelected = newSelected.concat(
-        //     selected.slice(0, selectedIndex),
-        //     selected.slice(selectedIndex + 1)
-        //     );
-        // }
-
         setSelected(newSelected);
         onRowClick(name);
     };
 
-      const handleChangePage = (event, newPage) => {
-          setPage(newPage + 1)
-      };
+    const onSearchCriteriaChage = searchCriteria => {       
+        setSearchCriteria(searchCriteria)
+    }
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage + 1)
+    };
     
-      const handleChangeRowsPerPage = (event) => {
+    const handleChangeRowsPerPage = (event) => {
         const rowsPerPage = parseInt(event.target.value, 10);
         setPage(1)        ;
         setPerPage(rowsPerPage);
-      };
+    };
 
     if(isLoading) {
         return <div>loading...</div>
     }
-      
+
     if(isError) {
-        return <div>oops...</div>
+        return (
+            <Alert text={getError(error)} />
+        )
     }
 
     const {count, rows } = data;
@@ -145,7 +136,9 @@ const useStyles = makeStyles((theme) => ({
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, count - page * rowsPerPage);
      
       return (
-        <div className={classes.root}>
+        <div className={classes.root}>                     
+            { isLoading && <p>Searching...</p>}        
+            { actions && actions({onSearchCriteriaChage, searchCriteria }) }
             <Paper className={classes.paper}>
                 <TableContainer>
                     <Table

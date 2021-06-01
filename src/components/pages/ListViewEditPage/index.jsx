@@ -1,13 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { DataGrid, ViewEditDialog } from '../../molecules';
+import { DataGrid, ViewEditDialog, SearchBox,  } from '../../molecules';
 import { Button } from '../../atoms';
 import { useQuery, useMutation, useQueryClient } from 'react-query'; 
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import { getPageListEditConfig } from '../../../common/page.config';
 import { ViewEditDialogState  } from '../../../common/enums';
 import { v4 } from 'uuid';
-import { Title, Container, Content, ButtonPanel} from '../page.components';
+import {  } from '../../atoms';
+import { 
+    Title, 
+    Container, 
+    Content, 
+    ButtonPanel,
+    ButtonPanelLeft,
+    ButtonPanelRight
+ } from '../page.components';
 
 
 function ListViewEditPage({ page }) {
@@ -19,8 +26,10 @@ function ListViewEditPage({ page }) {
         updateEntity,
         deleteEntity,
         gridConfig, 
+        searchPlaceholder='',
         editFormConfig,
         viewConfig,
+        canSearch=true,
         defaultSortColumn,
         defaultSortOrder='asc',
         canAdd=false,
@@ -103,8 +112,6 @@ function ListViewEditPage({ page }) {
             }            
     }}
 
-    // const fetchUser = async userId => await fetchById(userId);
-
     const onRowClikHandler = userId => {   
         setDialogMode(ViewEditDialogState.EditCreate);
         setSelectedId(userId);
@@ -131,16 +138,27 @@ function ListViewEditPage({ page }) {
         saveUser(data);
     }
     
+    const renderActions = ({onSearchCriteriaChage, searchCriteria}) => (
+        <ButtonPanel>   
+            <ButtonPanelLeft>
+                { canSearch && 
+                    <SearchBox  
+                        onClick={onSearchCriteriaChage}
+                        value={searchCriteria}
+                        placeholder={searchPlaceholder}/> 
+                }                    
+            </ButtonPanelLeft>
+            <ButtonPanelRight>
+                { canAdd && <Button text="Add" onClick={onAddClickHandler} />   }            
+            </ButtonPanelRight>
+        </ButtonPanel> )
+    
     return (
       <Container>   
-        <Title><h2>{mainTitle}</h2></Title>   
-        { canAdd && 
-            <ButtonPanel>
-                <Button text="Add" onClick={onAddClickHandler} />
-            </ButtonPanel> 
-        }        
+        <Title><h2>{mainTitle}</h2></Title>            
         <Content>        
-            <DataGrid               
+            <DataGrid    
+                actions={renderActions}           
                 config={gridConfig}                                   
                 dataSourceId={fetchAllQueryIdentifier}
                 dataSource={fetchAll}

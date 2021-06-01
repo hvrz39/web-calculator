@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 const NavBar = props => {
+    
     const classes = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
@@ -72,8 +73,8 @@ const NavBar = props => {
     function getProfile() {
         return (
             <p>
-                {`Conected as ${username}`}<br/>
-                {`Role: ${role}`}
+                <b>Connected as:</b>{username}<br/>
+                <b>Role: </b>{role}
             </p>
         )
     }

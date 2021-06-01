@@ -31,7 +31,9 @@ export const getPageListEditConfig = page => {
                 defaultSortOrder: 'asc',
                 mainTitle: `User Balance Management`,   
                 canAdd: false,
-                canDelete: false             
+                canDelete: false,
+                searchPlaceholder: 'Search for Balances | Username | Role',
+                canSearch: true                          
             }
         }
 
@@ -58,7 +60,9 @@ export const getPageListEditConfig = page => {
                 defaultSortOrder: 'asc',
                 mainTitle: `User Management`,
                 canAdd: true,
-                canDelete: true             
+                canDelete: true,
+                canSearch: true,
+                searchPlaceholder: 'Search for Users',                       
             }
         }
 
@@ -79,7 +83,9 @@ export const getPageListEditConfig = page => {
                 defaultSortOrder: 'asc',
                 mainTitle: `Services Management`,   
                 canAdd: true,
-                canDelete: true             
+                canDelete: true,
+                canSearch: true,
+                searchPlaceholder: 'Search for Services | Type | Cost | Status',               
             }
         }
 
@@ -100,7 +106,9 @@ export const getPageListEditConfig = page => {
                 defaultSortOrder: 'asc',
                 mainTitle: `Records Management`,   
                 canAdd: false,
-                canDelete: true             
+                canDelete: true,
+                canSearch: true,
+                searchPlaceholder: 'Search for Records | User | Response',                              
             }
         }
 
@@ -121,7 +129,9 @@ export const getPageListEditConfig = page => {
                 defaultSortOrder: 'asc',
                 mainTitle: `My Records Management`,   
                 canAdd: false,
-                canDelete: false             
+                canDelete: false,
+                canSearch: true,
+                searchPlaceholder: 'Search on My Records',                             
             }
         }
         default: return {}

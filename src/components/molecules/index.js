@@ -7,6 +7,7 @@ import ViewEditDialog from './ViewEditDialog';
 import DynamicForm from './DynamicForm';
 import ConfirmDialog from './ConfirmDialog';
 import ArithmeticOperation from './ArithmeticOperation';
+import SearchBox from './SearchBox';
 
 export const DialogTitleContent = styled.div
 `
@@ -22,13 +23,10 @@ export const ButtonPaneLeft = styled.div
 `
   text-alight: left;
   flex: 1;
-
 `
 export const ButtonPaneRight = styled.div
 ` text-alight: right;  
   flex: 1;
-  display: flex;
-  justify-content: space-between;  
 `
 export {
     LoginForm,
@@ -38,5 +36,6 @@ export {
     ViewEditDialog,
     DynamicForm,
     ConfirmDialog,
-    ArithmeticOperation
+    ArithmeticOperation,
+    SearchBox
 }

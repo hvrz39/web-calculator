@@ -18,6 +18,17 @@ export const Content = styled.div `
 `;
 
 export const ButtonPanel = styled.div `    
-    padding-bottom: 2em;
-    text-align: right
+    padding-bottom: 1em;
+    text-align: right;
+    display: flex;
+`;
+
+export const ButtonPanelLeft = styled.div `        
+    text-align: left;
+    flex: 1;
+`;
+
+export const ButtonPanelRight = styled.div `        
+    text-align: right;
+    flex: 1;
 `;
