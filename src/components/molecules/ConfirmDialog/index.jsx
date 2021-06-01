@@ -1,10 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, makeStyles, Typography } from '@material-ui/core';
 import { Button } from "../../atoms";
 import PropTypes from "prop-types";
-import DynamicForm from '../DynamicForm';
 import { DialogTitleContent, ButtonPanel, ButtonPaneLeft, ButtonPaneRight } from '../'
-import { ViewEditDialogState } from '../../../common/enums';
 
 const useStyles = makeStyles(theme => ({
   dialogWrapper: {
@@ -25,6 +23,9 @@ export default function ConfirmDialog(props) {
       maxWidth="md", 
       confirmMesage,      
       onClose,   
+      fullWidth=false,
+      confirmButonText='Yes',
+      showCancelButton=true,
       onConfirmClick,
       onCancelClick } = props;  
   
@@ -33,12 +34,10 @@ export default function ConfirmDialog(props) {
 
     function onCloseHandler() {
         onClose(false);
-        //setOpenPopup(false);
     }
 
     function onClickSaveHandler() {
-        onConfirmClick()
-        //onSaveClick(ref.current)
+        onConfirmClick();
     }
 
     function onCloseClickHandler() {        
@@ -69,15 +68,17 @@ export default function ConfirmDialog(props) {
                     <ButtonPaneLeft>              
                     </ButtonPaneLeft>
                     <ButtonPaneRight>                
-                        <Button 
+                        {showCancelButton && <Button 
                             onClick={onCloseClickHandler}
                             color="default" 
-                            text="No" />
+                            fullWidth={fullWidth}
+                            text="No" />}
                         <Button 
                             autoFocus 
+                            fullWidth={fullWidth}
                             onClick={onClickSaveHandler} 
                             color="primary" 
-                            text="Yes" />                          
+                            text={confirmButonText} />                          
                     </ButtonPaneRight>
                 </ButtonPanel>
             </DialogActions>        

@@ -2,12 +2,12 @@ import axios from 'axios';
 
 export const api = () => 
      axios.create({               
-       baseURL: `http://localhost:51044/api/`,
+       baseURL: `http://localhost:51044/v1/api/`,
         responseType: "json",
         contentType: "application/json",
         headers: {
             // Authorization: `Bearer ${window.localStorage.access_token ? window.localStorage.access_token : ''}`
-            Authorization: `${window.localStorage.access_token ? window.localStorage.access_token : ''}`,
+            
             'x-access-token': `${window.localStorage.access_token ? window.localStorage.access_token : ''}`
         },
     });
