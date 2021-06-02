@@ -20,7 +20,6 @@ const Input = ({
     placeholder="",
     text=null,
     value=null,
-    ref=null,
     required=false,
     onChange=f=>f,
     onKeyPress=f=>f

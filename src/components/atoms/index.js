@@ -3,10 +3,9 @@ import Button from './Button';
 import Alert from './Alert';
 import Checkbox from './Checkbox';
 import Select from './Select';
-import RadioGroup from './RadioGroup'
+import RadioGroup from './RadioGroup';
 import Icon from './Icon';
-import TabPanel from './TabPanel'
-import Tab from './Tab'
+import TabPanel from './TabPanel';
 
 export {
     TextField,
@@ -16,6 +15,5 @@ export {
     Select,
     RadioGroup,
     Icon,
-    TabPanel,
-    Tab
+    TabPanel
 }
