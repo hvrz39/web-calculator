@@ -4,7 +4,8 @@ import { Button } from '../../atoms';
 import { TextField, Alert } from '../../atoms'
 import Form from '../Form';
 import { useMutation } from  'react-query';
-import { AuthService } from '../../../services'
+import { AuthService, er } from '../../../services'
+import { getError } from '../../../services/error.service'
 import useFormFields from '../../../hooks/userFormFields';
 import { useDispatch, useSelector } from 'react-redux';
 import * as userloginActions from '../../../redux/actions/userlogin.action';
@@ -87,7 +88,7 @@ const LoginForm = props => {
             <LoginWrapper>
                 <LoginCard>                    
                     <FormControl>                       
-                        { isError && <AlertWrapper><Alert text={'User or password incorrect'} /> </AlertWrapper>}
+                        { isError && <AlertWrapper><Alert text={getError(error)} /> </AlertWrapper>}
                         <Form onSubmit={onSubmitHandler}> 
                             <TextField 
                                 id={'username'}                               
