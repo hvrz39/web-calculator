@@ -24,15 +24,18 @@ const MainContent = styled.div
 
 const RouteGuard  = ({ Component, ...props }) => {
 
-  const { userlogin: {isAuthenticated} } = useSelector(state=>state);  
+  const { userlogin: {isAuthenticated, role } } = useSelector(state=>state);  
 
   // check roles
   console.log('CHECK ROLES HERE')
   if (!isAuthenticated) {    
       return <Redirect to="/login" />;
   } 
-  // check roles before rendering
-
+  
+  debugger
+  if(!props.roles.includes(role)) {
+    return <Redirect to="/unauthorized" />;
+  }
   return (
       <Route
           {...props}
@@ -50,14 +53,14 @@ function App() {
           {isAuthenticated && <NavBar /> }
           <Switch>
               <Route  exact path="/login" component={LoginForm} />
-              <RouteGuard path='/users' Component={() => <ListViewEditPage  page={Pages.users} />} />
-              <RouteGuard path='/balances' Component={() => <ListViewEditPage  page={Pages.balances} />} />
-              <RouteGuard path='/services' Component={() => <ListViewEditPage  page={Pages.services} />} />
-              <RouteGuard path='/records' Component={() => <ListViewEditPage  page={Pages.records} />} />
-              <RouteGuard path='/myrecords' Component={() => <ListViewEditPage  page={Pages.myrecords} />} />
-              <RouteGuard path='/newservice' Component={props => <NerService {...props} />} />
-              <RouteGuard path='/profile' Component={() => <p>profile page</p>} />
-              <RouteGuard path='/' Component={() => <ListViewEditPage  page={Pages.users} />} />
+              <RouteGuard path='/users' Component={() => <ListViewEditPage  page={Pages.users} />}  roles={['admin']}/>
+              <RouteGuard path='/balances' Component={() => <ListViewEditPage  page={Pages.balances} />} roles={['admin']}/>
+              <RouteGuard path='/services' Component={() => <ListViewEditPage  page={Pages.services} />} roles={['admin']}/>
+              <RouteGuard path='/records' Component={() => <ListViewEditPage  page={Pages.records} />} roles={['admin']}/>
+              <RouteGuard path='/myrecords' Component={() => <ListViewEditPage  page={Pages.myrecords} />} roles={['user']}/>
+              <RouteGuard path='/newservice' Component={props => <NerService {...props} />} roles={['user']}/>
+              <Route path='/unauthorized' component={() => <h3>Unauthorized</h3>} />
+              <RouteGuard path='/' Component={() => <ListViewEditPage  page={Pages.users} />} roles={['admin']}/>
           </Switch>  
         </Router>
         </MainContent>
