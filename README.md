@@ -35,6 +35,19 @@ components
     \template
 ```
 
+## ReactJS Stack
+
+```bash
++ redux => for state management
++ react-query => caching server calls
++ material design  => table, buttons, etc
++ styled components  => custom styles
++ axios => api calls 
+
+
+```
+
+
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 

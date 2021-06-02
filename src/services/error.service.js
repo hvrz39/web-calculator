@@ -1,13 +1,17 @@
 
 
 export const getError = error => {
+    
+    const { response} = error;
 
-    const { response: { status, data }} = error;
+    if(!response) {        
+        return error.message;
+    }
 
+    const { status, data } = response;
     switch(status) {
         case 401: {
-            // dispatch(userloginActions.userLogout())
-            // return <Redirect to="/login" />
+            // dispatch(userloginActions.userLogout())            
         }        
     }
 

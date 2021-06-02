@@ -42,7 +42,7 @@ const Form = props => {
     function onSubmit(e) {
         e.preventDefault();       
     }    
-
+    debugger
     // same as Grid size
     const gridMaxAllowedConlumns = 12;
     const gridColumnSize = gridMaxAllowedConlumns / columns.length;
