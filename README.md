@@ -17,7 +17,7 @@ Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
 ## Storybook
-As part of the Atomic Design concept an Atom and a Moleculo are expose as an example of this approach. 
+As part of the Atomic Design concept an Atom and a Molecule are expose as an example of this approach. 
 
 ### `npm run storybook`
 
