@@ -1,7 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { TextField, Button, Alert } from '../../atoms';
 import useFormFields from '../../../hooks/userFormFields';
+import IconButton from '@material-ui/core/IconButton';
+import styled from 'styled-components';
+import Icon from '@material-ui/core/Icon';
+import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
 
+const WrapperContainer = styled.div
+`
+    width: 100%; 
+    margin: auto;
+    padding: 35px
+
+`;
 
 const ArithmeticOperation  = props => {
     
@@ -9,7 +20,6 @@ const ArithmeticOperation  = props => {
     const notSquareRoot = serviceType !== 'square_root' && serviceType !== 'free_form';
     const defaultElementCount = serviceType === 'square_root' && serviceType === 'free_form' ? 1: 2;    
     const inputType =  serviceType === 'free_form' ? 'text' : 'number';
-    // const inputType = serviceType === 'square_root' ? 'tex'
     const [elementCounter, setElementCounter ] = useState(defaultElementCount)
     const [fields, handleFieldChange, setFields ] = useFormFields(defaultElements());
 
@@ -50,16 +60,21 @@ const ArithmeticOperation  = props => {
     }
     const disableRemoveButtons = elementCounter== 2;
     return (
-        <div style={{ padding: '0px 35px',}}>
+        <WrapperContainer>
+
             { isError && <Alert severity={'error'}  text={error} /> }
             { isSuccess && <Alert severity={'info'} text={result.message} /> }
-            <p>{serviceType.toUpperCase()}</p>
-            { notSquareRoot && <Button text="+" onClick={addElement} /> }
-            <Button text="Request" onClick={request} />           
+
+            <p>{serviceType.toUpperCase()}</p>     
+            
+             { notSquareRoot &&
+                <IconButton color="primary"  onClick={addElement} component="span">
+                    <Icon>add_circle</Icon>
+                </IconButton>
+            }     
             {
                 Object.keys(fields).map(ele => 
-                <div>
-                  
+                <div>                  
                     <TextField 
                         type={inputType}
                         value={fields[ele]} 
@@ -67,12 +82,18 @@ const ArithmeticOperation  = props => {
                         name={ele} 
                         onChange={handleFieldChange} />
                     { notSquareRoot &&  
-                        <Button text="x" 
-                            onClick={() => removeElement(ele)} 
-                            disabled={disableRemoveButtons} /> }
+                        <IconButton 
+                            onClick={() => removeElement(ele)}
+                            color="action"  
+                            disabled={disableRemoveButtons}
+                            component="span">
+                            <RemoveCircleOutlineIcon color="action"  />
+                        </IconButton> }
                 </div>)
             }
-        </div>
+            <br/>
+            <Button text="Request Service" onClick={request} />    
+        </WrapperContainer>
     )
 }
 

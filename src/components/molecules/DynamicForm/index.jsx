@@ -21,8 +21,7 @@ const Form = props => {
 
     const { title, data, config, fieldsRef, isLoading } = props;
     const { columns } = config;
-    const classes = useStyles();    
-    console.log('data structure', data);
+    const classes = useStyles();        
     const [fields, handleFieldChange, setFields ] = useFormFields(data);
     
     // first load

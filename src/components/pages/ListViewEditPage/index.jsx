@@ -133,8 +133,7 @@ function ListViewEditPage({ page }) {
         setOpenDialog(true);
     }
 
-    const onSaveClickHandler = (data) => {       
-        console.log('data', data) 
+    const onSaveClickHandler = (data) => {               
         saveUser(data);
     }
     
