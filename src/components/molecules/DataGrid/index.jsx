@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
     const [orderBy, setOrderBy] = useState(defaultSortColumn);
     const [selected, setSelected] = useState([]);
     const [perPage, setPerPage] = useState(10);        
-    queryRef.current = [dataSourceId, sort, page, perPage]
+    queryRef.current = [dataSourceId, sort, page, perPage, searchCriteria]
     
     const { 
         data, 
